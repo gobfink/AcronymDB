@@ -1,4 +1,4 @@
-create database acryonym;
+create database my_acronym;
 
 create table tbl_user (
 userID INT NOT NULL AUTO_INCREMENT,
@@ -26,7 +26,7 @@ KEY `tagID` (`tagID`) USING BTREE,
 PRIMARY KEY (`tagID`)
 ) ENGINE=InnoDB
 
-create table `tbl_AcroTag`(
+create table `tbl_AcroTag` (
 `acroID` INT NOT NULL,
 `tagID` INT NOT NULL,
 KEY `acroID` (`acroID`) USING BTREE,

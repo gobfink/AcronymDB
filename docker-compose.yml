@@ -9,6 +9,8 @@ services:
     restart: always
     environment:
       MYSQL_ROOT_PASSWORD: example
+    volumes:
+      - ./schema:/docker-entrypoint-initdb.d
 
   adminer:
     image: adminer
