@@ -23,8 +23,8 @@ The database has a persisted volume called **mysql-data** that holds the persist
 
 ## Command to start the containers
 To start everything you can issue the following docker compose command:
-     * 'docker-compose up --build'
-     * setup the database (you may have to run the SQL file in /docker-compose/schema)
+   * 'docker-compose up --build'
+   * setup the database (you may have to run the SQL file in /docker-compose/schema)
 
 ## FOR THE FUTURE
    should have: 
