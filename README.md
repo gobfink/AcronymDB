@@ -7,12 +7,12 @@ It is comprised of many different pieces that are brought together in the docker
 
 It includes subdirectories with information about the various sub systems that are individually dockerized.
 
-The docker containers include:
-   php - a container containing the CGI for apache
-   apache - a container containing the apache web server (external port 8080)
-   db - a container containing the mysql instance (external port 3306)
-   adminer - a container containing the admin script to manage MySQL (external port 8081)
-   flask - a container containing the webservice flask (external port 5000)
+## The docker containers include:
+   * php - a container containing the CGI for apache
+   * apache - a container containing the apache web server (external port 8080)
+   * db - a container containing the mysql instance (external port 3306)
+   * adminer - a container containing the admin script to manage MySQL (external port 8081)
+   * flask - a container containing the webservice flask (external port 5000)
 
 The system also uses named networks to segment traffic between the pieces
 
