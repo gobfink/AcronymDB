@@ -29,8 +29,10 @@ CREATE TABLE `tbl_Acronym` (
 
 DROP TABLE IF EXISTS `tbl_Tag`;
 CREATE TABLE `tbl_Tag` (
-  `TagID` bigint(20) NOT NULL AUTO_INCREMENT,
-  `Tag` varchar(80) NOT NULL
+  `tagID` bigint(20) NOT NULL AUTO_INCREMENT,
+  `Tag` varchar(80) NOT NULL,
+  PRIMARY KEY (`tagID`),
+  KEY `acroID` (`tagID`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 
@@ -42,7 +44,7 @@ CREATE TABLE `tbl_User` (
   `userFN` varchar(80) DEFAULT NULL,
   `userLN` varchar(80) DEFAULT NULL,
   `userPasswordHash` varchar(128) DEFAULT NULL,
-  `userIsAdmin` integer DEFAULT NULL,
+  `userIsAdmin` int(11) DEFAULT NULL,
   `userLastLoginDT` datetime DEFAULT NULL,
   PRIMARY KEY (`userID`),
   KEY `userID` (`userID`) USING BTREE
