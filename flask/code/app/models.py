@@ -57,6 +57,24 @@ class User(UserMixin, db.Model):
     def load_user(userID):
         return User.query.get(int(userID))
 
+class Acronym(db.Model):
+    """
+    Create Acronym table
+    """
+
+    __tablename__ = 'tbl_Acronym'
+
+    acroID = db.Column(db.Integer, primary_key=True)
+    id = acroID
+    acronym = db.Column(db.String(80), index=True, unique=True)
+    definition = db.Column(db.String(80))
+    authID = db.Column(db.Integer)
+    authID = db.Column(db.Integer, default=False)
+    dateCreate = db.Column(db.DateTime, default=False)
+
+    def __repr__(self):
+       return '<Acronym: %s, Def: %s>'%(format(self.acronym),format(self.definition))
+
 class Tag(db.Model):
     """
     Create tag table
