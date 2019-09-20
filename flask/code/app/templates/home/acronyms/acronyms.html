@@ -21,7 +21,9 @@
                   <th width="15%"> Acronym </th>
                   <th width="55%"> Definition </th>
                   <th width="15%"> Edit </th>
+                  {% if current_user.userIsAdmin == 1 %}
                   <th width="15%"> Delete </th>
+                  {% endif %}
                 </tr>
               </thead>
               <tbody>
@@ -34,11 +36,13 @@
                       <i class="fa fa-pencil"></i> Edit 
                     </a>
                   </td>
+                  {% if current_user.userIsAdmin == 1 %}
                   <td>
                     <a href="#">
                       <i class="fa fa-trash"></i> Delete 
                     </a>
                   </td>
+                  {% endif %}
                 </tr>
               {% endfor %}
               </tbody>
