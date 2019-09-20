@@ -56,7 +56,7 @@ CREATE TABLE `tbl_Acronym` (
   `dateCreate` datetime DEFAULT NULL,
   PRIMARY KEY (`acroID`),
   KEY `acroID` (`acroID`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -65,7 +65,7 @@ CREATE TABLE `tbl_Acronym` (
 
 LOCK TABLES `tbl_Acronym` WRITE;
 /*!40000 ALTER TABLE `tbl_Acronym` DISABLE KEYS */;
-INSERT INTO `tbl_Acronym` VALUES (1,'TBD','To Be Determined',1,NULL);
+INSERT INTO `tbl_Acronym` VALUES (1,'TBD','To Be Determined',1,'2019-09-20 01:24:28'),(2,'ASAP','As Soon As Possible',1,'2019-09-20 01:24:28');
 /*!40000 ALTER TABLE `tbl_Acronym` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -134,4 +134,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2019-09-19 15:00:16
+-- Dump completed on 2019-09-20  2:41:10
