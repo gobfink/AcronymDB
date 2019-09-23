@@ -11,6 +11,6 @@ class AcronymsForm(FlaskForm):
     """
     Form for  adding or editing acronym
     """
-    acronym = StringField('acronym', validators=[DataRequired()])
-    definition = StringField('definition', validators=[DataRequired()])
+    acronym = StringField('Acronym', validators=[DataRequired()])
+    definition = StringField('Definition', validators=[DataRequired()])
     submit = SubmitField('Submit')
