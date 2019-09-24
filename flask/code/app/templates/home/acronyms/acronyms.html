@@ -20,6 +20,7 @@
                 <tr>
                   <th width="15%"> Acronym </th>
                   <th width="55%"> Definition </th>
+                  <th width="55%"> Tag </th>
                   <th width="15%"> Edit </th>
                   {% if current_user.userIsAdmin == 1 %}
                   <th width="15%"> Delete </th>
@@ -31,6 +32,13 @@
                 <tr>
                   <td> {{ acronym.acronym }} </td>
                   <td> {{ acronym.definition }} </td>
+                  <td> 
+                    <select>
+                    {% for tag in tags %}
+                     <option>{{tag.tag}}</option>
+                    {% endfor %}
+                     </select>
+                  </td>
                   <td>
                     <a href="{{ url_for('home.edit_acronym', id=acronym.id) }}">
                       <i class="fa fa-pencil"></i> Edit 
