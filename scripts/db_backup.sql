@@ -24,12 +24,11 @@ DROP TABLE IF EXISTS `tbl_AcroTag`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `tbl_AcroTag` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
   `acroID` bigint(20) NOT NULL,
   `tagID` bigint(20) NOT NULL,
-  PRIMARY KEY (`acroID`,`tagID`),
-  KEY `acroID` (`acroID`) USING BTREE,
-  KEY `tagID` (`tagID`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -38,6 +37,7 @@ CREATE TABLE `tbl_AcroTag` (
 
 LOCK TABLES `tbl_AcroTag` WRITE;
 /*!40000 ALTER TABLE `tbl_AcroTag` DISABLE KEYS */;
+INSERT INTO `tbl_AcroTag` VALUES (1,1,1),(2,1,3);
 /*!40000 ALTER TABLE `tbl_AcroTag` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -55,7 +55,7 @@ CREATE TABLE `tbl_Acronym` (
   `author_id` bigint(20) DEFAULT NULL,
   `dateCreate` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -64,7 +64,7 @@ CREATE TABLE `tbl_Acronym` (
 
 LOCK TABLES `tbl_Acronym` WRITE;
 /*!40000 ALTER TABLE `tbl_Acronym` DISABLE KEYS */;
-INSERT INTO `tbl_Acronym` VALUES (1,'TBD','To Be Determined',1,'2019-09-20 01:24:28'),(2,'ASAP','As Soon As Possible',1,'2019-09-20 01:24:28');
+INSERT INTO `tbl_Acronym` VALUES (1,'TBD','To Be Determined',1,'2019-09-20 01:24:28'),(2,'ASAP','As Soon As Possible',1,'2019-09-20 01:24:28'),(8,'New Acro','This is atest Acronym',1,'2019-10-01 16:49:00');
 /*!40000 ALTER TABLE `tbl_Acronym` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -89,7 +89,7 @@ CREATE TABLE `tbl_Tag` (
 
 LOCK TABLES `tbl_Tag` WRITE;
 /*!40000 ALTER TABLE `tbl_Tag` DISABLE KEYS */;
-INSERT INTO `tbl_Tag` VALUES (1,'Test 1'),(2,'test 2'),(3,'Test 3'),(4,'Test 4');
+INSERT INTO `tbl_Tag` VALUES (1,'US Navy'),(2,'ASSETT'),(3,'General'),(4,'Test 4');
 /*!40000 ALTER TABLE `tbl_Tag` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -133,4 +133,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2019-10-01  0:11:01
+-- Dump completed on 2019-10-01 17:20:21
