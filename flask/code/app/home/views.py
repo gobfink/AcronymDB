@@ -58,7 +58,7 @@ def add_acronym():
     if form.validate_on_submit():
         acronym = Acronym(acronym=form.acronym.data, 
                           definition=form.definition.data,
-                          authID=current_user.id,
+                          author_id=current_user.id,
                           dateCreate=datetime.datetime.now())
         db.session.add(acronym)
         db.session.commit()

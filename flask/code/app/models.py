@@ -12,8 +12,7 @@ class User(UserMixin, db.Model):
 
     __tablename__ = 'tbl_User'
     
-    userID = db.Column(db.Integer, primary_key=True)
-    id = userID
+    id = db.Column(db.Integer, primary_key=True)
     userEmail = db.Column(db.String(80), index=True, unique=True)
     username = db.Column(db.String(80), index=True, unique=True)
     userFN = db.Column(db.String(80), index=True)
@@ -21,6 +20,7 @@ class User(UserMixin, db.Model):
     userPasswordHash = db.Column(db.String(128))
     userIsAdmin = db.Column(db.Integer, default=False)
     userLastLoginDT = db.Column(db.DateTime, default=False)
+    posts = db.relationship('Acronym', backref='author', lazy='dynamic')
 
     def setPassdate(self):
         self.userLastLoginDT = datetime.now()
@@ -64,12 +64,10 @@ class Acronym(db.Model):
 
     __tablename__ = 'tbl_Acronym'
 
-    acroID = db.Column(db.Integer, primary_key=True)
-    id = acroID
+    id = db.Column(db.Integer, primary_key=True)
     acronym = db.Column(db.String(80), index=True, unique=True)
     definition = db.Column(db.String(80))
-    authID = db.Column(db.Integer)
-    authID = db.Column(db.Integer, default=False)
+    author_id = db.Column(db.Integer, db.ForeignKey('tbl_User.id'))
     dateCreate = db.Column(db.DateTime, default=False)
 
     def __repr__(self):
@@ -82,8 +80,7 @@ class Tag(db.Model):
 
     __tablename__ = 'tbl_Tag'
 
-    tagID = db.Column(db.Integer, primary_key=True)
-    id = tagID
+    id = db.Column(db.Integer, primary_key=True)
     tag = db.Column(db.String(60), index=True, unique=True)
 
     def __repr__(self):
