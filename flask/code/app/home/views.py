@@ -2,7 +2,7 @@
 import datetime
 from flask import abort, render_template, redirect, flash, url_for
 from flask_login import current_user, login_required
-from ..models import Acronym
+from ..models import Acronym, Tag
 from .. import db
 
 from . forms import AcronymsForm
@@ -39,10 +39,10 @@ def acronyms():
     """
     List all acronyms
     """
-  
+    tags = Tag.query.all() 
     acronyms = Acronym.query.all()
     return render_template('home/acronyms/acronyms.html',
-                           acronyms=acronyms, title="Acronyms") 
+                           acronyms=acronyms,tags=tags,title="Acronyms") 
 
 @home.route('/acronyms/add', methods=['GET', 'POST'])
 @login_required
