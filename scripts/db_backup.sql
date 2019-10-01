@@ -49,14 +49,13 @@ DROP TABLE IF EXISTS `tbl_Acronym`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `tbl_Acronym` (
-  `acroID` bigint(20) NOT NULL AUTO_INCREMENT,
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
   `acronym` varchar(80) NOT NULL,
   `definition` varchar(80) NOT NULL,
-  `authID` bigint(20) DEFAULT NULL,
+  `author_id` bigint(20) DEFAULT NULL,
   `dateCreate` datetime DEFAULT NULL,
-  PRIMARY KEY (`acroID`),
-  KEY `acroID` (`acroID`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -77,10 +76,10 @@ DROP TABLE IF EXISTS `tbl_Tag`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `tbl_Tag` (
-  `tagID` bigint(20) NOT NULL AUTO_INCREMENT,
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
   `Tag` varchar(80) NOT NULL,
-  PRIMARY KEY (`tagID`),
-  KEY `acroID` (`tagID`) USING BTREE
+  PRIMARY KEY (`id`),
+  KEY `acroID` (`id`) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -102,7 +101,7 @@ DROP TABLE IF EXISTS `tbl_User`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `tbl_User` (
-  `userID` bigint(20) NOT NULL AUTO_INCREMENT,
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
   `userEmail` varchar(80) NOT NULL,
   `username` varchar(80) NOT NULL,
   `userFN` varchar(80) DEFAULT NULL,
@@ -110,8 +109,8 @@ CREATE TABLE `tbl_User` (
   `userPasswordHash` varchar(128) DEFAULT NULL,
   `userIsAdmin` int(11) DEFAULT NULL,
   `userLastLoginDT` datetime DEFAULT NULL,
-  PRIMARY KEY (`userID`),
-  KEY `userID` (`userID`) USING BTREE
+  PRIMARY KEY (`id`),
+  KEY `userID` (`id`) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -134,4 +133,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2019-09-20  2:41:10
+-- Dump completed on 2019-10-01  0:11:01
