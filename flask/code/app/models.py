@@ -57,6 +57,18 @@ class User(UserMixin, db.Model):
     def load_user(userID):
         return User.query.get(int(userID))
 
+class AcroTag(db.Model):
+    """
+    Create AcroTag table
+    """
+
+    __tablename__ = 'tbl_AcroTag'
+    
+    id = db.Column(db.Integer, primary_key=True)
+    acroID = db.Column(db.Integer, db.ForeignKey('tbl_Acronym.id'))
+    tagID = db.Column(db.Integer, db.ForeignKey('tbl_Tag.id'))
+
+
 class Acronym(db.Model):
     """
     Create Acronym table
@@ -69,6 +81,7 @@ class Acronym(db.Model):
     definition = db.Column(db.String(80))
     author_id = db.Column(db.Integer, db.ForeignKey('tbl_User.id'))
     dateCreate = db.Column(db.DateTime, default=False)
+    acrotags = db.relationship('AcroTag', backref='acronym', lazy='dynamic')
 
     def __repr__(self):
        return '<Acronym: %s, Def: %s>'%(format(self.acronym),format(self.definition))
@@ -82,6 +95,7 @@ class Tag(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     tag = db.Column(db.String(60), index=True, unique=True)
+    acrotags = db.relationship('AcroTag', backref='tagTable', lazy='dynamic')
 
     def __repr__(self):
        return '<Tag: {}>'.format(self.tag)
