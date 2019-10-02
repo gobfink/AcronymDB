@@ -175,7 +175,15 @@ def edit_user(id):
     user = User.query.get_or_404(id)
     form = UsersForm(obj=user)
     if form.validate_on_submit():
-	# handle the edit
+        user.userEmail = form.userEmail.data
+        user.username = form.username.data
+        user.userFN=form.userFN.data
+        user.userLN=form.userLN.data
+        user.userIsAdmin=form.userIsAdmin.data
+        db.session.commit()
+
+        flash('You have successfully edited the user.')
+
         return redirect(url_for('admin.list_users'))
 
     form.username.data = user.username

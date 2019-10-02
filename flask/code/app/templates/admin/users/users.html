@@ -34,7 +34,11 @@
                   <td> {{ user.userEmail }} </td>
                   <td> {{ user.userFN }} </td>
                   <td> {{ user.userLN }} </td>
-                  <td> {{ user.isAdmin }} </td>
+                  {% if user.userIsAdmin == 1 %}
+                  <td> Yes </td>
+                  {% else %}
+                  <td> No  </td>
+                  {% endif %}
                   <td>
                     <a href="{{ url_for('admin.edit_user', id=user.id) }}">
                       <i class="fa fa-pencil"></i> Edit 

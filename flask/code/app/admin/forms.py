@@ -2,7 +2,7 @@
 
 from flask_wtf import FlaskForm
 from wtforms import StringField, SubmitField, SelectField
-from wtforms.validators import DataRequired
+from wtforms.validators import DataRequired, Optional
 from wtforms.ext.sqlalchemy.fields import QuerySelectField
 
 from ..models import Tag, User
@@ -23,5 +23,6 @@ class UsersForm(FlaskForm):
     userEmail = StringField('Email', validators=[DataRequired()])
     userFN = StringField('First Name', validators=[])
     userLN = StringField('Last Name', validators=[])
-    userIsAdmin = SelectField('Is Admin?', choices=[(1,'Yes'),(0,'No')])
+    #userIsAdmin = SelectField('Is Admin?', coerce=int, choices=[('1','Yes'),('0','No')],validators=[Optional()])
+    userIsAdmin = SelectField('Is Admin?', coerce=int, choices=[(1,'Yes'),(0,'No')],validators=[])
     submit = SubmitField('Submit')
