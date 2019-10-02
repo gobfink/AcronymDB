@@ -7,7 +7,9 @@ from . import admin
 from .. import db
 from ..models import Tag, User
 
-from . forms import TagsForm, UsersForm
+from . forms import TagsForm, UsersForm, UsersAddForm
+
+import datetime
 
 
 def check_admin():
@@ -139,7 +141,7 @@ def add_user():
 
     add_user = True
 
-    form = UsersForm()
+    form = UsersAddForm()
 
     if form.validate_on_submit():
         user = User(userEmail=form.userEmail.data,
@@ -152,10 +154,10 @@ def add_user():
         # add user to the database
         db.session.add(user)
         db.session.commit()
-        flash('You have successfully registered! You may now login.')
+        flash('You have successfully added user.')
 
         # redirect to the users page
-        return redirect(url_for('auth.list_users'))
+        return redirect(url_for('admin.list_users'))
   
     #load new user template
     return render_template('admin/users/user.html', action="Add",
