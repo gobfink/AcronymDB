@@ -22,6 +22,14 @@
             {% endif %}
             <br/>
             {{ wtf.quick_form(form) }}
+            {% if add_acronym==false %}
+               Author: {{ acronym.author.userFN }} {{ acronym.author.userLN }}<br />
+               Date Create: {{ acronym.dateCreate }}<br />
+               Tags: <br />
+               {% for tag in acronym.acrotags %}
+                  &nbsp;&nbsp;&nbsp;{{ tag.tagTable.tag }}<br />
+               {% endfor %}
+            {% endif %}
         </div>
       </div>
     </div>
