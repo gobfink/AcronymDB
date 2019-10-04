@@ -14,4 +14,5 @@ class AcronymsForm(FlaskForm):
     acronym = StringField('Acronym', validators=[DataRequired()])
     definition = StringField('Definition', validators=[DataRequired()])
     submit = SubmitField('Submit')
+    cancel = SubmitField('Cancel')
 

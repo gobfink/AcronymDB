@@ -1,6 +1,6 @@
 # app/home/views.py
 import datetime
-from flask import abort, render_template, redirect, flash, url_for
+from flask import abort, render_template, redirect, flash, url_for, request
 from flask_login import current_user, login_required
 from ..models import Acronym, Tag
 from .. import db
@@ -56,13 +56,16 @@ def add_acronym():
     form = AcronymsForm()
 
     if form.validate_on_submit():
-        acronym = Acronym(acronym=form.acronym.data, 
+        if form.submit.data:
+            acronym = Acronym(acronym=form.acronym.data, 
                           definition=form.definition.data,
                           author_id=current_user.id,
                           dateCreate=datetime.datetime.now())
-        db.session.add(acronym)
-        db.session.commit()
-        flash('You have successfully added a new Acronym ' + form.acronym.data + ' !')
+            db.session.add(acronym)
+            db.session.commit()
+            flash('You have successfully added a new Acronym \'' + form.acronym.data + '\'')
+        else: 
+            flash('You have cancelled the add of a new Acronym')
         return redirect(url_for('home.acronyms'))
 
     # load acronym template
@@ -81,10 +84,13 @@ def edit_acronym(id):
     acronym = Acronym.query.get_or_404(id)
     form = AcronymsForm(obj=acronym)
     if form.validate_on_submit():
-        acronym.acronym = form.acronym.data
-        acronym.definition = form.definition.data
-        db.session.commit()
-        flash('You have successfully edited the acronym.')
+        if form.submit.data:
+           acronym.acronym = form.acronym.data
+           acronym.definition = form.definition.data
+           db.session.commit()
+           flash('You have successfully edited the acronym \'' + acronym.acronym + '\'')
+        else:
+           flash('You have Cancelled the edit of acronym \'' + acronym.acronym + '\'')
 
         # redirect to the acronym page
         return redirect(url_for('home.acronyms'))
