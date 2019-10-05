@@ -39,6 +39,8 @@ def acronyms():
     """
     List all acronyms
     """
+    totalcount = Acronym.query.count()
+
     search = AcronymSearchForm(request.form)
     if request.method == 'POST':
        searchVal = request.form["search"]
@@ -64,9 +66,14 @@ def acronyms():
           acronyms = Acronym.query.filter(Acronym.id.in_(acrolist))
     else:
        acronyms = Acronym.query.all()
+    subcount = acronyms.count()
     tags = Tag.query.all() 
     return render_template('home/acronyms/acronyms.html',
-                           acronyms=acronyms,tags=tags,title='Acronyms',
+                           acronyms=acronyms,
+                           tags=tags,
+                           totalcount=totalcount,
+                           subcount=subcount,
+                           title='Acronyms',
                            form=search) 
 
 @home.route('/acronyms/add', methods=['GET', 'POST'])
