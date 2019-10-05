@@ -2,10 +2,10 @@
 import datetime
 from flask import abort, render_template, redirect, flash, url_for, request
 from flask_login import current_user, login_required
-from ..models import Acronym, Tag
+from ..models import Acronym, Tag, AcroTag
 from .. import db
 
-from . forms import AcronymsForm
+from . forms import AcronymsForm, AcronymSearchForm
 
 from . import home
 
@@ -33,16 +33,41 @@ def dashboard():
  
     return render_template('home/dashboard.html',title="Dashboard")
 
-@home.route('/acronyms')
+@home.route('/acronyms', methods=['GET','POST'])
 @login_required
 def acronyms():
     """
     List all acronyms
     """
+    search = AcronymSearchForm(request.form)
+    if request.method == 'POST':
+       searchVal = request.form["search"]
+       choice = request.form["select"]
+       searchStr = "%{}%".format(searchVal)
+       if choice == 'acronym':
+          acronyms = Acronym.query.filter(Acronym.acronym.like(searchStr))
+       elif choice == 'definition':
+          acronyms = Acronym.query.filter(Acronym.definition.like(searchStr))
+       else:
+          #This needs to search for tags but it is not working. 
+          #Need to find all tag ids that match the search term,
+          tags = Tag.query.filter(Tag.tag.like(searchStr))
+          taglist = []
+          for tag in tags:
+              taglist.append(tag.id) 
+          # then find all acroIDs in acrotag
+          acrotags = AcroTag.query.filter(AcroTag.tagID.in_(taglist))
+          acrolist = []
+          for acrotag in acrotags:
+              acrolist.append(acrotag.acroID)
+          # then find all acronyms that have acroid in the acroID list
+          acronyms = Acronym.query.filter(Acronym.id.in_(acrolist))
+    else:
+       acronyms = Acronym.query.all()
     tags = Tag.query.all() 
-    acronyms = Acronym.query.all()
     return render_template('home/acronyms/acronyms.html',
-                           acronyms=acronyms,tags=tags,title="Acronyms") 
+                           acronyms=acronyms,tags=tags,title='Acronyms',
+                           form=search) 
 
 @home.route('/acronyms/add', methods=['GET', 'POST'])
 @login_required

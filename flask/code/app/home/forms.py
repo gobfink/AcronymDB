@@ -1,7 +1,7 @@
 # app/home/forms.py
 
 from flask_wtf import FlaskForm
-from wtforms import StringField, SubmitField
+from wtforms import StringField, SubmitField, Form, SelectField
 from wtforms.validators import DataRequired
 from wtforms.ext.sqlalchemy.fields import QuerySelectField
 
@@ -16,3 +16,9 @@ class AcronymsForm(FlaskForm):
     submit = SubmitField('Submit')
     cancel = SubmitField('Cancel')
 
+class AcronymSearchForm(Form):
+    choices = [('acronym', 'Acronym'),
+               ('definition','Definition'),
+               ('tag','Tags')]
+    select = SelectField('',choices=choices)
+    search = StringField('')
