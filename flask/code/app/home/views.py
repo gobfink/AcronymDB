@@ -51,7 +51,6 @@ def acronyms():
        elif choice == 'definition':
           acronyms = Acronym.query.filter(Acronym.definition.like(searchStr))
        else:
-          #This needs to search for tags but it is not working. 
           #Need to find all tag ids that match the search term,
           tags = Tag.query.filter(Tag.tag.like(searchStr))
           taglist = []
@@ -64,9 +63,10 @@ def acronyms():
               acrolist.append(acrotag.acroID)
           # then find all acronyms that have acroid in the acroID list
           acronyms = Acronym.query.filter(Acronym.id.in_(acrolist))
+       subcount = acronyms.count()
     else:
        acronyms = Acronym.query.all()
-    subcount = acronyms.count()
+       subcount = len(acronyms) 
     tags = Tag.query.all() 
     return render_template('home/acronyms/acronyms.html',
                            acronyms=acronyms,
