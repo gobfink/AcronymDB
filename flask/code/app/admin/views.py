@@ -142,22 +142,24 @@ def add_user():
     add_user = True
 
     form = UsersAddForm()
-
-    if form.validate_on_submit():
-        user = User(userEmail=form.userEmail.data,
+    if form.cancel.data:
+       flash('You have cancelled user add.')
+       # redirect to the users page
+       return redirect(url_for('admin.list_users'))
+    elif form.validate_on_submit():
+       user = User(userEmail=form.userEmail.data,
                             username=form.username.data,
                             userFN=form.userFN.data,
                             userLN=form.userLN.data,
                             password=form.password.data,
                             userLastLoginDT=datetime.datetime.now(),
                             userIsAdmin=form.userIsAdmin.data)
-        # add user to the database
-        db.session.add(user)
-        db.session.commit()
-        flash('You have successfully added user.')
-
-        # redirect to the users page
-        return redirect(url_for('admin.list_users'))
+       # add user to the database
+       db.session.add(user)
+       db.session.commit()
+       flash('You have successfully added user.')
+       # redirect to the users page
+       return redirect(url_for('admin.list_users'))
   
     #load new user template
     return render_template('admin/users/user.html', action="Add",
@@ -177,14 +179,17 @@ def edit_user(id):
     user = User.query.get_or_404(id)
     form = UsersForm(obj=user)
     if form.validate_on_submit():
-        user.userEmail = form.userEmail.data
-        user.username = form.username.data
-        user.userFN=form.userFN.data
-        user.userLN=form.userLN.data
-        user.userIsAdmin=form.userIsAdmin.data
-        db.session.commit()
-
-        flash('You have successfully edited the user.')
+        if form.submit.data:
+           user.userEmail = form.userEmail.data
+           user.username = form.username.data
+           user.userFN=form.userFN.data
+           user.userLN=form.userLN.data
+           user.userIsAdmin=form.userIsAdmin.data
+           db.session.commit()
+   
+           flash('You have successfully edited the user.')
+        else:
+           flash('You have cancelled user edit.')
 
         return redirect(url_for('admin.list_users'))
 

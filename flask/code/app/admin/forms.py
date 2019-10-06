@@ -25,6 +25,7 @@ class UsersForm(FlaskForm):
     userLN = StringField('Last Name', validators=[])
     userIsAdmin = SelectField('Is Admin?', coerce=int, choices=[(1,'Yes'),(0,'No')],validators=[])
     submit = SubmitField('Submit')
+    cancel = SubmitField('Cancel')
 
 class UsersAddForm(FlaskForm):
     """
@@ -43,3 +44,4 @@ class UsersAddForm(FlaskForm):
                                         ])
     confirm_password = PasswordField('Confirm Password')
     submit = SubmitField('Submit')
+    cancel = SubmitField('Cancel')
