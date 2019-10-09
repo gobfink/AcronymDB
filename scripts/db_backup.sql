@@ -111,7 +111,7 @@ CREATE TABLE `tbl_User` (
   `userLastLoginDT` datetime DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `userID` (`id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -120,7 +120,7 @@ CREATE TABLE `tbl_User` (
 
 LOCK TABLES `tbl_User` WRITE;
 /*!40000 ALTER TABLE `tbl_User` DISABLE KEYS */;
-INSERT INTO `tbl_User` VALUES (1,'kgustafson2@gmail.com','kgustafson','Kurt','Gustafson','pbkdf2:sha256:150000$QdXtO1tr$f3cbce0096438589d64d074f40b7aeef84f6e327b3275a13077046e9fb5da786',1,'2019-09-13 19:20:49'),(2,'alex.kayser@assett.net','akayser','Alex','Kayser','pbkdf2:sha256:150000$CXYV7eBs$fa7bafbc3dd2d6c93346a255b39731877a7bd3cbfa51ccd0da3dbc8860237585',1,'2019-09-18 16:11:29'),(3,'gobfink@gmail.com','afortman','Andy','Fortman','pbkdf2:sha256:150000$TMqBdxVa$cbda14148a321f7f4666c873bccbbdcfc25907d21e2e9ee337dafc446fbb2ba7',1,'2019-09-18 16:29:11');
+INSERT INTO `tbl_User` VALUES (1,'kgustafson2@gmail.com','kgustafson','Kurt','Gustafson','pbkdf2:sha256:150000$QdXtO1tr$f3cbce0096438589d64d074f40b7aeef84f6e327b3275a13077046e9fb5da786',1,'2019-09-13 19:20:49'),(2,'alex.kayser@assett.net','akayser','Alex','Kayser','pbkdf2:sha256:150000$CXYV7eBs$fa7bafbc3dd2d6c93346a255b39731877a7bd3cbfa51ccd0da3dbc8860237585',1,'2019-09-18 16:11:29'),(3,'gobfink@gmail.com','afortman','Andy','Fortman','pbkdf2:sha256:150000$TMqBdxVa$cbda14148a321f7f4666c873bccbbdcfc25907d21e2e9ee337dafc446fbb2ba7',1,'2019-09-18 16:29:11'),(4,'jim.viar@assett.net','jim','jim','viar','pbkdf2:sha256:150000$XWbQpUiX$f9875f604a3a16ec94eae5259c35e9d1778dbb1c749dc032411062511d94cd34',1,'2019-10-09 20:59:22');
 /*!40000 ALTER TABLE `tbl_User` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -133,4 +133,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2019-10-01 17:20:21
+-- Dump completed on 2019-10-09 21:01:36
