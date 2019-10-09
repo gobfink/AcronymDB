@@ -31,7 +31,7 @@ def list_tags():
     """
     check_admin()
 
-    tags = Tag.query.all()
+    tags = Tag.query.order_by(Tag.tag).all()
 
     return render_template('admin/tags/tags.html',
                            tags=tags, title="Tags")
@@ -126,7 +126,7 @@ def list_users():
     """
     check_admin()
 
-    users = User.query.all()
+    users = User.query.order_by(User.username).all()
 
     return render_template('admin/users/users.html',
                            users=users, title="Users")

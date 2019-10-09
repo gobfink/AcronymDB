@@ -64,8 +64,9 @@ def acronyms():
           # then find all acronyms that have acroid in the acroID list
           acronyms = Acronym.query.filter(Acronym.id.in_(acrolist))
        subcount = acronyms.count()
+       acronyms = acronyms.order_by(Acronym.acronym)
     else:
-       acronyms = Acronym.query.all()
+       acronyms = Acronym.query.order_by(Acronym.acronym).all()
        subcount = len(acronyms) 
     tags = Tag.query.all() 
     return render_template('home/acronyms/acronyms.html',
