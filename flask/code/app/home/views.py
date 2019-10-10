@@ -66,6 +66,13 @@ def acronyms():
        subcount = acronyms.count()
        acronyms = acronyms.order_by(Acronym.acronym)
     else:
+       cmd = request.args.get('cmd')
+       tagid = request.args.get('tagid')
+       if (cmd == 'deltag'):
+           acrotag = AcroTag.query.get_or_404(tagid)
+           db.session.delete(acrotag)
+           db.session.commit()
+           flash('Deleted Tag')
        sorter = request.args.get('sort')
        if (sorter == 'definition'):
            acronyms = Acronym.query.order_by(Acronym.definition).all()
