@@ -42,7 +42,7 @@
               <thead>
                 <tr>
                   <th width="15%"> Acronym </th>
-                  <th width="55%"> Definition </th>
+                  <th width="55%"> Definition <a href="{{ url_for('home.acronyms',sort='definition') }}">^</a></th>
                   <th width="55%"> Author </th>
                   <th width="10%"> Date Created </th>
                   <th width="10%"> Tag </th>
@@ -61,7 +61,7 @@
                   <td>{{ acronym.dateCreate }}</td>
                   <td> 
                     {% for acrotag in acronym.acrotags %} 
-                    {{ acrotag.tagTable.tag }}&nbsp;
+                    <span class="tag">{{ acrotag.tagTable.tag }}</span><a href="#" class="tagbutton">x</a><br />
                     {% endfor %}
                   </td>
                   <td>

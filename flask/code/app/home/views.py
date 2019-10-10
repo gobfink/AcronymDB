@@ -66,7 +66,13 @@ def acronyms():
        subcount = acronyms.count()
        acronyms = acronyms.order_by(Acronym.acronym)
     else:
-       acronyms = Acronym.query.order_by(Acronym.acronym).all()
+       sorter = request.args.get('sort')
+       if (sorter == 'definition'):
+           acronyms = Acronym.query.order_by(Acronym.definition).all()
+       elif (sorter == 'acronym'):
+           acronyms = Acronym.query.order_by(Acronym.acronym).all()
+       else:
+           acronyms = Acronym.query.order_by(Acronym.acronym).all()
        subcount = len(acronyms) 
     tags = Tag.query.all() 
     return render_template('home/acronyms/acronyms.html',

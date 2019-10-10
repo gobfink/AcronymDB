@@ -89,7 +89,7 @@ CREATE TABLE `tbl_Tag` (
 
 LOCK TABLES `tbl_Tag` WRITE;
 /*!40000 ALTER TABLE `tbl_Tag` DISABLE KEYS */;
-INSERT INTO `tbl_Tag` VALUES (1,'US Navy'),(2,'ASSETT'),(3,'General'),(4,'Test 4');
+INSERT INTO `tbl_Tag` VALUES (1,'USNavy'),(2,'ASSETT'),(3,'General'),(4,'Test 4');
 /*!40000 ALTER TABLE `tbl_Tag` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -133,4 +133,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2019-10-09 21:01:36
+-- Dump completed on 2019-10-10 20:28:38
