@@ -70,9 +70,10 @@ def acronyms():
        tagid = request.args.get('tagid')
        if (cmd == 'deltag'):
            acrotag = AcroTag.query.get_or_404(tagid)
+           tagName = Tag.query.get_or_404(acrotag.tagID).tag
            db.session.delete(acrotag)
            db.session.commit()
-           flash('Deleted Tag')
+           flash('Removing Tag \''+tagName+'\'')
        if (cmd == 'addtag'):
            # add code here to handle the add tag, show a pop up window to get the tag, capture the one selected and add
            # the new tag to the AcroTag table.
