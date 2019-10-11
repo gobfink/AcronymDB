@@ -63,7 +63,7 @@
                     {% for acrotag in acronym.acrotags %} 
                     <span class="tag">{{ acrotag.tagTable.tag }}</span><a title="Remove Tag" href="{{ url_for('home.acronyms',cmd='deltag',tagid=acrotag.id) }}" class="tagbutton">x</a><br />
                     {% endfor %}
-                     <a title="Add Tag" href="#" class="tagbutton">+</a> 
+                     <a title="Add Tag" href="{{ url_for('home.acronyms',cmd='addtag') }}" class="tagbutton">+</a> 
                   </td>
                   <td>
                     <a href="{{ url_for('home.edit_acronym', id=acronym.id) }}">

@@ -73,6 +73,10 @@ def acronyms():
            db.session.delete(acrotag)
            db.session.commit()
            flash('Deleted Tag')
+       if (cmd == 'addtag'):
+           # add code here to handle the add tag, show a pop up window to get the tag, capture the one selected and add
+           # the new tag to the AcroTag table.
+           flash('Adding Tag')
        sorter = request.args.get('sort')
        if (sorter == 'definition'):
            acronyms = Acronym.query.order_by(Acronym.definition).all()
