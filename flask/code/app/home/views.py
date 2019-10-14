@@ -66,18 +66,6 @@ def acronyms():
        subcount = acronyms.count()
        acronyms = acronyms.order_by(Acronym.acronym)
     else:
-       cmd = request.args.get('cmd')
-       tagid = request.args.get('tagid')
-       if (cmd == 'deltag'):
-           acrotag = AcroTag.query.get_or_404(tagid)
-           tagName = Tag.query.get_or_404(acrotag.tagID).tag
-           db.session.delete(acrotag)
-           db.session.commit()
-           flash('Removing Tag \''+tagName+'\'')
-       if (cmd == 'addtag'):
-           # add code here to handle the add tag, show a pop up window to get the tag, capture the one selected and add
-           # the new tag to the AcroTag table.
-           flash('Adding Tag')
        sorter = request.args.get('sort')
        if (sorter == 'definition'):
            acronyms = Acronym.query.order_by(Acronym.definition).all()
@@ -105,6 +93,20 @@ def add_acronym():
     add_acronym = True
 
     form = AcronymsForm()
+
+    if request.method == 'GET':
+        cmd = request.args.get('cmd')
+        tagid = request.args.get('tagid')
+        if (cmd == 'deltag'):
+           acrotag = AcroTag.query.get_or_404(tagid)
+           tagName = Tag.query.get_or_404(acrotag.tagID).tag
+           db.session.delete(acrotag)
+           db.session.commit()
+           flash('Removing Tag \''+tagName+'\'')
+        if (cmd == 'addtag'):
+           # add code here to handle the add tag, show a pop up window to get the tag, capture the one selected and add
+           # the new tag to the AcroTag table.
+           flash('Adding Tag')
 
     if form.validate_on_submit():
         if form.submit.data:
@@ -134,6 +136,19 @@ def edit_acronym(id):
 
     acronym = Acronym.query.get_or_404(id)
     form = AcronymsForm(obj=acronym)
+    if request.method == 'GET':
+        cmd = request.args.get('cmd')
+        acrotagid = request.args.get('acrotagid')
+        if (cmd == 'deltag'):
+           acrotag = AcroTag.query.get_or_404(acrotagid)
+           tagName = Tag.query.get_or_404(acrotag.tagID).tag
+           db.session.delete(acrotag)
+           db.session.commit()
+           flash('Removing Tag \''+tagName+'\'')
+        if (cmd == 'addtag'):
+           # add code here to handle the add tag, show a pop up window to get the tag, capture the one selected and add
+           # the new tag to the AcroTag table.
+           flash('Adding Tag')
     if form.validate_on_submit():
         if form.submit.data:
            acronym.acronym = form.acronym.data

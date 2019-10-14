@@ -1,6 +1,7 @@
 <!-- app/templates/home/acronyms/acronym.html -->
 
 {% import "bootstrap/wtf.html" as wtf %}
+{% import "bootstrap/utils.html" as utils %}
 {% extends "base.html" %}
 {% block title %}
     {% if add_acronym %}
@@ -14,6 +15,7 @@
  <div class="outer">
     <div class="middle">
       <div class="inner">
+        {{ utils.flashed_messages() }}
         <div class="center">
           <form action="" method="post"
               class="form" role="form">
@@ -32,8 +34,10 @@
                <tr><td>Date Create:</td><td>{{ acronym.dateCreate }}</td></tr>
                <tr><td>Tags:</td><td>
                {% for tag in acronym.acrotags %}
-                  &nbsp;&nbsp;&nbsp;{{ tag.tagTable.tag }}<br />
+                  <span class="tag">{{ tag.tagTable.tag }}</span><a href="{{ url_for('home.edit_acronym',id=acronym.id,cmd='deltag',acrotagid=tag.id) }}" title="Remove Tag" class="tagbutton">X</a>
                {% endfor %}
+               <br />
+               <a href="{{ url_for('home.edit_acronym',id=acronym.id,cmd='addtag') }}" class="tagbutton" title="Add Tag">+</a>
                </td></tr>
             {% endif %}
             <tr><td align=right>{{ form.submit }}</td><td align=left>{{ form.cancel }}</td></tr>
