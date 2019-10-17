@@ -5,7 +5,7 @@ from flask_login import current_user, login_required
 from ..models import Acronym, Tag, AcroTag
 from .. import db
 
-from . forms import AcronymsForm, AcronymSearchForm
+from . forms import AcronymsForm, AcronymSearchForm, AddTagForm
 
 from . import home
 
@@ -103,10 +103,10 @@ def add_acronym():
            db.session.delete(acrotag)
            db.session.commit()
            flash('Removing Tag \''+tagName+'\'')
-        if (cmd == 'addtag'):
+    #    if (cmd == 'addtag'):
            # add code here to handle the add tag, show a pop up window to get the tag, capture the one selected and add
            # the new tag to the AcroTag table.
-           flash('Adding Tag')
+        #   flash('Adding Tag')
 
     if form.validate_on_submit():
         if form.submit.data:
@@ -125,6 +125,39 @@ def add_acronym():
     return render_template('home/acronyms/acronym.html', action="Add",
                            add_acronym=add_acronym, form=form,
                            title="Add Acronym")
+
+@home.route('/acronyms/addtag/<int:acroid>', methods=['GET', 'POST'])
+@login_required
+def add_tag(acroid):
+    """
+    Add a tag to an acronym
+    """
+    acronym = Acronym.query.get_or_404(acroid)
+    form = AddTagForm(obj=acronym)
+    if request.method=='POST':
+        if form.submit.data:
+           # add code to add to acrotag table
+           acrotag = AcroTag(acroID=acroid, 
+                          tagID=form.select.data)
+           db.session.add(acrotag)
+           db.session.commit()
+           flash('You have successfully associated a Tag' )
+        else:
+           flash('You have cancelled the association a Tag')
+
+        return redirect(url_for('home.edit_acronym',id=acroid))
+
+    # get the tags that I don't already have for this acronym
+    #mychoices = [(1,'Test 1'),(4, 'Test 4')] 
+    mychoices = Tag.query.all()
+    myselect = []
+    for choice in mychoices:
+        myselect.append((choice.id, choice.tag))
+    form.select.choices=myselect
+    # load acronym template
+    return render_template('home/acronyms/addtag.html', 
+                           form=form,
+                           title="Add Tag")
 
 @home.route('/acronyms/edit/<int:id>', methods=['GET', 'POST'])
 @login_required
@@ -148,7 +181,8 @@ def edit_acronym(id):
         if (cmd == 'addtag'):
            # add code here to handle the add tag, show a pop up window to get the tag, capture the one selected and add
            # the new tag to the AcroTag table.
-           flash('Adding Tag')
+           return redirect(url_for('home.add_tag',acroid=id))
+           #flash('Adding Tag')
     if form.validate_on_submit():
         if form.submit.data:
            acronym.acronym = form.acronym.data

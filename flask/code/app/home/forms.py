@@ -22,3 +22,10 @@ class AcronymSearchForm(Form):
                ('tag','Tags')]
     select = SelectField('',choices=choices)
     search = StringField('')
+
+
+class AddTagForm(FlaskForm):
+    choices=[]
+    select = SelectField('Tag to Add',choices=choices, validators=[DataRequired()])
+    submit = SubmitField('Submit')
+    cancel = SubmitField('Cancel')
