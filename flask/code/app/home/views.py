@@ -150,9 +150,15 @@ def add_tag(acroid):
     # get the tags that I don't already have for this acronym
     #mychoices = [(1,'Test 1'),(4, 'Test 4')] 
     mychoices = Tag.query.all()
+    assoc=[]
     myselect = []
+    
+    for acrotag in acronym.acrotags:
+      assoc.append(int(acrotag.tagID))
+    flash('assoc:'+str(assoc))
     for choice in mychoices:
-        myselect.append((choice.id, choice.tag))
+        if int(choice.id) not in (assoc):
+          myselect.append((choice.id, choice.tag))
     form.select.choices=myselect
     # load acronym template
     return render_template('home/acronyms/addtag.html', 
