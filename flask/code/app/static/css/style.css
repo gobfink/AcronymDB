@@ -17,6 +17,10 @@ a:hover, .navbar-default .navbar-brand:hover, .navbar-default .navbar-nav>li>a:h
   color: #687430;
 }
 
+.authlist {
+  color: #cccccc;
+}
+
 footer {
     padding: 50px 0;
     background-color: #f8f8f8;
@@ -57,6 +61,11 @@ p.copyright {
 .footer, .push {
   clear: both;
   height: 4em;
+}
+
+.header-divider {
+    border-left: 1px solid black;
+    vertical-align: middle;
 }
 
 .intro-divider {

@@ -19,28 +19,33 @@
                   <span class="icon-bar"></span>
                   <span class="icon-bar"></span>
               </button>
-              <a class="navbar-brand topnav" href="{{ url_for('home.homepage') }}">Project Acronym DB</a>
+              <a class="navbar-brand topnav" href="{{ url_for('home.homepage') }}">About Acronym DB</a>
           </div>
           <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
               <ul class="nav navbar-nav navbar-right">
                   {% if current_user.is_authenticated %}
                      {% if current_user.userIsAdmin == 1 %}
-                        <li><a href="{{ url_for('home.admin_dashboard') }}">Dashboard</a></li>
                         <li><a href="{{ url_for('home.acronyms') }}">Acronyms</a></li>
                         <li><a href="{{ url_for('admin.list_tags') }}">Tags</a></li>
                         <li><a href="{{ url_for('admin.list_users') }}">Users</a></li>
                      {% else %}
-                        <li><a href="{{ url_for('home.dashboard') }}">Dashboard</a></li>
                         <li><a href="{{ url_for('home.acronyms') }}">Acronyms</a></li>
                      {% endif %}
                      <li><a href="{{ url_for('auth.logout') }}">Logout</a></li>
-                     <li><a><i class="fa fa-user"></i>  logged in as {{ current_user.userFN }}&nbsp;{{ current_user.userLN }} ({{ current_user.userLastLoginDT.strftime('%m/%d/%Y %H:%M:%S') }})</a></li>
+                     <li><a href="#">logged in as {{ current_user.userFN }}&nbsp;{{ current_user.userLN }} (
+                     {% if current_user.userLastLoginDT is none %}
+                         Never
+                     {% else %}
+                         {{ current_user.userLastLoginDT.strftime('%m/%d/%Y %H:%M:%S') }}
+                     {% endif %}
+                     )</a></li>
+              </ul>
                   {% else %}
                      <li><a href="{{ url_for('home.homepage') }}">Home</a></li>
                      <li><a href="{{ url_for('auth.register') }}">Register</a></li>
                      <li><a href="{{ url_for('auth.login') }}">Login</a></li>
-                  {% endif %}
               </ul>
+                  {% endif %}
           </div>
         </div>
     </nav>

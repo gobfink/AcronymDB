@@ -56,7 +56,9 @@ def login():
             login_user(user)
 
             # set new login datetime stamp for successful login
-            user.userLastLoginDT=datetime.datetime.now()
+            if user.userLoginDT != None:
+               user.userLastLoginDT=user.userLoginDT
+            user.userLoginDT=datetime.datetime.now()
             db.session.commit()
 
             # redirect to appropriate dashboard page 

@@ -20,6 +20,7 @@ class User(UserMixin, db.Model):
     userPasswordHash = db.Column(db.String(128))
     userIsAdmin = db.Column(db.Integer, default=False)
     userLastLoginDT = db.Column(db.DateTime, default=False)
+    userLoginDT = db.Column(db.DateTime, default=False)
     posts = db.relationship('Acronym', backref='author', lazy='dynamic')
 
     def setPassdate(self):
