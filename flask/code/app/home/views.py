@@ -94,22 +94,22 @@ def add_acronym():
 
     form = AcronymsForm()
 
-    if request.method == 'GET':
-        cmd = request.args.get('cmd')
-        tagid = request.args.get('tagid')
-        if (cmd == 'deltag'):
-           acrotag = AcroTag.query.get_or_404(tagid)
-           tagName = Tag.query.get_or_404(acrotag.tagID).tag
-           db.session.delete(acrotag)
-           db.session.commit()
-           flash('Removing Tag \''+tagName+'\'')
+    #if request.method == 'GET':
+    #    cmd = request.args.get('cmd')
+    #    tagid = request.args.get('tagid')
+    #    if (cmd == 'deltag'):
+    #       acrotag = AcroTag.query.get_or_404(tagid)
+    #       tagName = Tag.query.get_or_404(acrotag.tagID).tag
+    #       db.session.delete(acrotag)
+    #       db.session.commit()
+    #       flash('Removing Tag \''+tagName+'\' from acronym \'' + acrotag.acronym.acronym + '\'')
     #    if (cmd == 'addtag'):
            # add code here to handle the add tag, show a pop up window to get the tag, capture the one selected and add
            # the new tag to the AcroTag table.
         #   flash('Adding Tag')
 
-    if form.validate_on_submit():
-        if form.submit.data:
+    if form.submit.data:
+       if form.validate_on_submit():
             acronym = Acronym(acronym=form.acronym.data, 
                           definition=form.definition.data,
                           author_id=current_user.id,
@@ -117,8 +117,11 @@ def add_acronym():
             db.session.add(acronym)
             db.session.commit()
             flash('You have successfully added a new Acronym \'' + form.acronym.data + '\'')
-        else: 
-            flash('You have cancelled the add of a new Acronym')
+            return redirect(url_for('home.acronyms'))
+       else:
+            flash('Fill in required fields!')
+    if form.cancel.data:
+        flash('You have cancelled the add of a new Acronym')
         return redirect(url_for('home.acronyms'))
 
     # load acronym template
@@ -141,7 +144,9 @@ def add_tag(acroid):
                           tagID=form.select.data)
            db.session.add(acrotag)
            db.session.commit()
-           flash('You have successfully associated a Tag' )
+           tag = Tag.query.get_or_404(form.select.data)
+           tagname = tag.tag
+           flash('You have successfully associated Tag \'' + tagname + '\' to acronym \'' + acronym.acronym + '\'')
         else:
            flash('You have cancelled the association a Tag')
 
@@ -155,7 +160,7 @@ def add_tag(acroid):
     
     for acrotag in acronym.acrotags:
       assoc.append(int(acrotag.tagID))
-    flash('assoc:'+str(assoc))
+    #flash('assoc:'+str(assoc))
     for choice in mychoices:
         if int(choice.id) not in (assoc):
           myselect.append((choice.id, choice.tag))
@@ -183,12 +188,9 @@ def edit_acronym(id):
            tagName = Tag.query.get_or_404(acrotag.tagID).tag
            db.session.delete(acrotag)
            db.session.commit()
-           flash('Removing Tag \''+tagName+'\'')
+           flash('Removing Tag \''+tagName+'\' from acronym \'' + acrotag.acronym.acronym + '\'')
         if (cmd == 'addtag'):
-           # add code here to handle the add tag, show a pop up window to get the tag, capture the one selected and add
-           # the new tag to the AcroTag table.
            return redirect(url_for('home.add_tag',acroid=id))
-           #flash('Adding Tag')
     if form.validate_on_submit():
         if form.submit.data:
            acronym.acronym = form.acronym.data
