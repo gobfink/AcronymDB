@@ -52,11 +52,12 @@ def login():
         if user is not None and user.verify_password(
                 form.password.data):
 
-            # set last login to now
-            user.setPassdate()
-                   
             # log employee in
             login_user(user)
+
+            # set new login datetime stamp for successful login
+            user.userLastLoginDT=datetime.datetime.now()
+            db.session.commit()
 
             # redirect to appropriate dashboard page 
             if user.userIsAdmin == 1:
