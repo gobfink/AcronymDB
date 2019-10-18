@@ -24,15 +24,6 @@ def homepage():
 
     return render_template('home/index.html', title="Welcome")
 
-@home.route('/dashboard')
-@login_required
-def dashboard():
-    """
-    Render the dashboard template on the /dashboard route
-    """
- 
-    return render_template('home/dashboard.html',title="Dashboard")
-
 @home.route('/acronyms', methods=['GET','POST'])
 @login_required
 def acronyms():
@@ -226,11 +217,3 @@ def delete_acronym(id):
     return redirect(url_for('home.acronyms'))
 
     return render_template(title="Delete Acronym")
-
-@home.route('/admin/dashboard')
-@login_required
-def admin_dashboard():
-    if current_user.userIsAdmin == 0:
-       abort(403)
-
-    return render_template('home/admin_dashboard.html', title="Dashboard")

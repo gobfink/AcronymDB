@@ -61,11 +61,8 @@ def login():
             user.userLoginDT=datetime.datetime.now()
             db.session.commit()
 
-            # redirect to appropriate dashboard page 
-            if user.userIsAdmin == 1:
-               return redirect(url_for('home.admin_dashboard'))
-            else:
-               return redirect(url_for('home.dashboard'))
+            # redirect to home page 
+            return redirect(url_for('home.homepage'))
 
         # when login details are incorrect
         else:
