@@ -85,12 +85,14 @@ def add_acronym():
 
     """
     Create dynamic objects on the form
+      - Query the tag database
+      - Turn into actual string values
+      - DIsplay in the form
     """
-    tags=["t1","t2","t3","t4"]
-    tag_out=[]
-    for item in tags:
-      setattr(AcronymsForm, item, BooleanField(item))
-
+    tags=[]
+    tag_query=Tag.query.all();
+    for tag in tag_query:
+      setattr(AcronymsForm, tag.tag, BooleanField(tag.tag))
 
     form = AcronymsForm()
 
