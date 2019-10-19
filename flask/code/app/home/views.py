@@ -1,5 +1,6 @@
 # app/home/views.py
 import datetime
+from wtforms import BooleanField 
 from flask import abort, render_template, redirect, flash, url_for, request
 from flask_login import current_user, login_required
 from ..models import Acronym, Tag, AcroTag
@@ -79,9 +80,17 @@ def acronyms():
 def add_acronym():
     """
     Add a acronym to the database
-    """
-
+    """      
     add_acronym = True
+
+    """
+    Create dynamic objects on the form
+    """
+    tags=["t1","t2","t3","t4"]
+    tag_out=[]
+    for item in tags:
+      setattr(AcronymsForm, item, BooleanField(item))
+
 
     form = AcronymsForm()
 
