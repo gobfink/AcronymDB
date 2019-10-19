@@ -92,6 +92,7 @@ def add_acronym():
     tags=[]
     tag_query=Tag.query.all();
     for tag in tag_query:
+      tags.append(tag.tag)
       setattr(AcronymsForm, tag.tag, BooleanField(tag.tag))
 
     form = AcronymsForm()
@@ -112,6 +113,15 @@ def add_acronym():
 
     if form.submit.data:
        if form.validate_on_submit():
+            selected_tags=[]
+            data_in=form.data
+            #TODO this could probably reworked
+            for tag in tags:
+              if data_in[tag]:
+                selected_tags.append(tag)
+
+            flash(str(selected_tags))#+" : "+string(form.data[key]))
+
             acronym = Acronym(acronym=form.acronym.data, 
                           definition=form.definition.data,
                           author_id=current_user.id,
