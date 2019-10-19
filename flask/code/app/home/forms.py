@@ -18,17 +18,9 @@ class AcronymsForm(FlaskForm):
     """
     acronym = StringField('Acronym', validators=[_required, Length(1, 80)])
     definition = StringField('Definition', validators=[_required, Length(1, 80)])
-        #tag_out.append(BooleanField(item))
-
-    #tag = BooleanField(false_values=(False, 'false', 0 ,'0'))
-    
     submit = SubmitField('Submit')
     cancel = SubmitField('Cancel')
 
-tags=["t1","t2","t3","t4"]
-tag_out=[]
-for item in tags:
-    setattr(AcronymsForm, item, BooleanField(item))
 
 class AcronymSearchForm(Form):
     choices = [('acronym', 'Acronym'),
