@@ -96,27 +96,11 @@ def add_acronym():
       setattr(AcronymsForm, tag.tag, BooleanField(tag.tag))
 
     form = AcronymsForm()
-    #mychoices = [(1,'Test 1'),(4, 'Test 4')] 
-
-    #if request.method == 'GET':
-    #    cmd = request.args.get('cmd')
-    #    tagid = request.args.get('tagid')
-    #    if (cmd == 'deltag'):
-    #       acrotag = AcroTag.query.get_or_404(tagid)
-    #       tagName = Tag.query.get_or_404(acrotag.tagID).tag
-    #       db.session.delete(acrotag)
-    #       db.session.commit()
-    #       flash('Removing Tag \''+tagName+'\' from acronym \'' + acrotag.acronym.acronym + '\'')
-    #    if (cmd == 'addtag'):
-           # add code here to handle the add tag, show a pop up window to get the tag, capture the one selected and add
-           # the new tag to the AcroTag table.
-        #   flash('Adding Tag')
 
     if form.submit.data:
        if form.validate_on_submit():
             selected_tags={}
             data_in=form.data
-            #TODO this could probably reworked
             for tagid, tagstr in tags.items():
               if data_in[tagstr]:
                 selected_tags[tagid]=tagstr
@@ -126,14 +110,13 @@ def add_acronym():
                           author_id=current_user.id,
                           dateCreate=datetime.datetime.now())
 
-#            flash("acronym: "+str(acronym))#+", acroid: "+acronym.id)
             db.session.add(acronym)
             db.session.commit()
             #I'm struggling getting the id of the newly created acronym. So I'm going to commit it to the db, then query it back out
             #Please change this if theirs a better way!
             queried = Acronym.query.filter_by(acronym=acronym.acronym, definition=acronym.definition).all()
             #this could fail if we have two exact acronyms with the same definition that we set. 
-            # we take the last one to update the latest
+            #In case that happends we take the last one to update the latest
             new_acro_id=queried[-1].id
             for tag_id in selected_tags.keys():
               new_acrotag=AcroTag(acroID=new_acro_id, tagID=tag_id)
