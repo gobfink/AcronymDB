@@ -89,13 +89,14 @@ def add_acronym():
       - Turn into actual string values
       - DIsplay in the form
     """
-    tags=[]
+    tags={}
     tag_query=Tag.query.all();
     for tag in tag_query:
-      tags.append(tag.tag)
+      tags[tag.id]=tag.tag
       setattr(AcronymsForm, tag.tag, BooleanField(tag.tag))
 
     form = AcronymsForm()
+    #mychoices = [(1,'Test 1'),(4, 'Test 4')] 
 
     #if request.method == 'GET':
     #    cmd = request.args.get('cmd')
@@ -113,20 +114,31 @@ def add_acronym():
 
     if form.submit.data:
        if form.validate_on_submit():
-            selected_tags=[]
+            selected_tags={}
             data_in=form.data
             #TODO this could probably reworked
-            for tag in tags:
-              if data_in[tag]:
-                selected_tags.append(tag)
-
-            flash(str(selected_tags))#+" : "+string(form.data[key]))
+            for tagid, tagstr in tags.items():
+              if data_in[tagstr]:
+                selected_tags[tagid]=tagstr
 
             acronym = Acronym(acronym=form.acronym.data, 
                           definition=form.definition.data,
                           author_id=current_user.id,
                           dateCreate=datetime.datetime.now())
+
+#            flash("acronym: "+str(acronym))#+", acroid: "+acronym.id)
             db.session.add(acronym)
+            db.session.commit()
+            #I'm struggling getting the id of the newly created acronym. So I'm going to commit it to the db, then query it back out
+            #Please change this if theirs a better way!
+            queried = Acronym.query.filter_by(acronym=acronym.acronym, definition=acronym.definition).all()
+            #this could fail if we have two exact acronyms with the same definition that we set. 
+            # we take the last one to update the latest
+            new_acro_id=queried[-1].id
+            for tag_id in selected_tags.keys():
+              new_acrotag=AcroTag(acroID=new_acro_id, tagID=tag_id)
+              db.session.add(new_acrotag)
+
             db.session.commit()
             flash('You have successfully added a new Acronym \'' + form.acronym.data + '\'')
             return redirect(url_for('home.acronyms'))
