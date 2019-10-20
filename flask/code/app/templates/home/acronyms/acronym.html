@@ -29,6 +29,7 @@
             <table  class="table table-striped table-bordered">
                <tr><td>{{ form.acronym.label }}</td><td>{{ form.acronym }}</td></tr>
                <tr><td>{{ form.definition.label }}</td><td>{{ form.definition }}</td></tr>
+            {% if add_acronym==true %}
                <tr>
                 <td>Tags</td>
                 <td> 
@@ -45,7 +46,7 @@
                   </table>
                 </td>
                </tr>
-            {% if add_acronym==false %}
+            {% else %}
                <tr><td>Author:</td><td>{{ acronym.author.userFN }} {{ acronym.author.userLN }}</td></tr>
                <tr><td>Date Create:</td><td>{{ acronym.dateCreate }}</td></tr>
                <tr><td>Tags:</td><td>
