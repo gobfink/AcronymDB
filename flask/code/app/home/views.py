@@ -184,6 +184,18 @@ def edit_acronym(id):
     Edit a acronym
     """
     add_acronym = False
+   
+    tags={}
+    tag_query=Tag.query.all();
+    acrotag_query=AcroTag.query.filter_by(acroID=id).all()
+    associds=[atag.tagID for atag in acrotag_query]
+    for tag in tag_query:
+      #check it if its associated, else don't
+      tags[tag.id]=tag.tag
+      if tag.id in associds:
+        setattr(AcronymsForm, tag.tag, BooleanField(tag.tag,default="checked"))
+      else:
+        setattr(AcronymsForm, tag.tag, BooleanField(tag.tag))
 
     acronym = Acronym.query.get_or_404(id)
     form = AcronymsForm(obj=acronym)
@@ -200,10 +212,22 @@ def edit_acronym(id):
            return redirect(url_for('home.add_tag',acroid=id))
     if form.validate_on_submit():
         if form.submit.data:
-           acronym.acronym = form.acronym.data
-           acronym.definition = form.definition.data
-           db.session.commit()
-           flash('You have successfully edited the acronym \'' + acronym.acronym + '\'')
+          selected_tags={}
+          #delete all acrotags associate with the acronym
+          #go through each tag
+          #add the ones that have been selected
+          for acrotag in acrotag_query:
+            db.session.delete(acrotag)
+          for tagid, tagstr in tags.items():
+            if form.data[tagstr]:
+              selected_tags[tagid]=tagstr
+              db.session.add(AcroTag(acroID=id,tagID=tagid))
+
+          #flash(str(selected_tags))
+          acronym.acronym = form.acronym.data
+          acronym.definition = form.definition.data
+          db.session.commit()
+          flash('You have successfully edited the acronym \'' + acronym.acronym + '\'')
         else:
            flash('You have Cancelled the edit of acronym \'' + acronym.acronym + '\'')
 
