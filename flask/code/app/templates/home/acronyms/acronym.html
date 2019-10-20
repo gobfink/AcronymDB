@@ -36,11 +36,7 @@
                   <table class="table table-striped table-bordered">
                     {% for field in form %}
                     {% if field.type == "BooleanField" %}
-                    <tr>
-                      <td>
-                     {{ field }} {{ field.label }}
-                      </td>
-                    </tr>
+                    <tr><td>{{ field }} {{ field.label }}</td></tr>
                     {% endif %}
                     {% endfor %}
                   </table>
