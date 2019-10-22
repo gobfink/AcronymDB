@@ -59,6 +59,10 @@ def importCSV(filein):
 def export_data_file(fileout):
     """
     Export Acronym File 
+       Expects a name for the fileout.
+       Will put the file into /upload directory that is available locally
+       Exports two fields with NO header.  Acronym, Definition
+       Will quote delimit both fields seperated by a comma.
     """
     check_admin()
     acros = Acronym.query.all()
@@ -70,6 +74,12 @@ def export_data_file(fileout):
 def import_data_file(filein):
     """
     Import Acronym File 
+       Expects a name for the file to read in
+       Expects the file to be two fields:  Acronym and Definition
+       No error checking on import data is done at the moment
+       Will append each row of data in the import file to Acronym
+       Will set the author to the user importing 
+       Will set the creation date to today's date
     """
     check_admin()
     return(importCSV(filein)) 
