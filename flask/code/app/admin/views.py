@@ -7,7 +7,7 @@ from . import admin
 from .. import db
 from ..models import Tag, User, Acronym
 
-from . forms import TagsForm, UsersForm, UsersAddForm, UploadForm
+from . forms import TagsForm, UsersForm, UsersAddForm, UploadForm, DownloadForm
 from werkzeug import secure_filename
 
 import datetime
@@ -55,6 +55,25 @@ def importCSV(filein):
   resp="Added Acronyms: " + strOut 
   return (resp)
 
+@admin.route('/Export', methods=['GET','POST'])
+@login_required
+def export_form():
+    """
+    Import will prompt for import file
+    """
+    check_admin()
+    
+    uploading = False
+    
+    form = DownloadForm()
+  
+    if form.validate_on_submit():
+       filename = form.file.data
+       return redirect(url_for('admin.export_data_file', fileout=filename))
+
+    return render_template('admin/upload.html', action="Edit",
+                           form=form,title="Export File", uploading=uploading)
+
 @admin.route('/Export/<fileout>', methods=['GET', 'POST'])
 @login_required
 def export_data_file(fileout):
@@ -68,7 +87,8 @@ def export_data_file(fileout):
     check_admin()
     acros = Acronym.query.all()
     exportCSV(fileout,acros)
-    return('Wrote Acronyms to file '+fileout)
+    flash('Wrote Acronyms to file /upload/'+fileout)
+    return redirect(url_for('home.acronyms'))
 
 @admin.route('/Import', methods=['GET','POST'])
 @login_required
@@ -79,6 +99,8 @@ def import_form():
     check_admin()
     
     form = UploadForm()
+  
+    uploading = True
 
     if form.validate_on_submit():
        filename = secure_filename(form.file.data.filename)
@@ -87,7 +109,7 @@ def import_form():
        return redirect(url_for('admin.import_data_file', filein=filename))
 
     return render_template('admin/upload.html', action="Edit",
-                           form=form,title="Upload File")
+                           form=form,title="Upload File", uploading=uploading)
 
 @admin.route('/Import/<filein>', methods=['GET', 'POST'])
 @login_required
@@ -107,7 +129,6 @@ def import_data_file(filein):
 
 
 # Tag Views
-
 
 @admin.route('/tags', methods=['GET', 'POST'])
 @login_required

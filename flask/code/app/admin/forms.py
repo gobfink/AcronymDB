@@ -11,6 +11,10 @@ class UploadForm(FlaskForm):
     file = FileField()
     submit = SubmitField('Submit')
 
+class DownloadForm(FlaskForm):
+    file = StringField('Save As', validators=[DataRequired()])
+    submit = SubmitField('Submit')
+
 class TagsForm(FlaskForm):
     """
     Form for admin to add or edit tags

@@ -29,6 +29,7 @@
                         <li><a href="{{ url_for('admin.list_tags') }}">Tags</a></li>
                         <li><a href="{{ url_for('admin.list_users') }}">Users</a></li>
                         <li><a href="{{ url_for('admin.import_form') }}">Upload CSV</a></li>
+                        <li><a href="{{ url_for('admin.export_form') }}">Export Acronyms</a></li>
                      {% else %}
                         <li><a href="{{ url_for('home.acronyms') }}">Acronyms</a></li>
                      {% endif %}
