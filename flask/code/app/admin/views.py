@@ -7,7 +7,8 @@ from . import admin
 from .. import db
 from ..models import Tag, User, Acronym
 
-from . forms import TagsForm, UsersForm, UsersAddForm
+from . forms import TagsForm, UsersForm, UsersAddForm, UploadForm
+from werkzeug import secure_filename
 
 import datetime
 import csv
@@ -69,6 +70,25 @@ def export_data_file(fileout):
     exportCSV(fileout,acros)
     return('Wrote Acronyms to file '+fileout)
 
+@admin.route('/Import', methods=['GET','POST'])
+@login_required
+def import_form():
+    """
+    Import will prompt for import file
+    """
+    check_admin()
+    
+    form = UploadForm()
+
+    if form.validate_on_submit():
+       filename = secure_filename(form.file.data.filename)
+       basedir='/code/app/upload/'
+       form.file.data.save(basedir + filename)
+       return redirect(url_for('admin.import_data_file', filein=filename))
+
+    return render_template('admin/upload.html', action="Edit",
+                           form=form,title="Upload File")
+
 @admin.route('/Import/<filein>', methods=['GET', 'POST'])
 @login_required
 def import_data_file(filein):
@@ -82,7 +102,8 @@ def import_data_file(filein):
        Will set the creation date to today's date
     """
     check_admin()
-    return(importCSV(filein)) 
+    flash(importCSV(filein)) 
+    return redirect(url_for('home.acronyms'))
 
 
 # Tag Views

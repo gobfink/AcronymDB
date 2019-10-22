@@ -1,11 +1,15 @@
 # app/admin/forms.py
 
 from flask_wtf import FlaskForm
-from wtforms import StringField, SubmitField, SelectField, PasswordField
+from wtforms import StringField, SubmitField, SelectField, PasswordField, FileField
 from wtforms.validators import DataRequired, Optional, EqualTo
 from wtforms.ext.sqlalchemy.fields import QuerySelectField
 
 from ..models import Tag, User
+
+class UploadForm(FlaskForm):
+    file = FileField()
+    submit = SubmitField('Submit')
 
 class TagsForm(FlaskForm):
     """
