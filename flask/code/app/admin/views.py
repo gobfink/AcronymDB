@@ -1,16 +1,16 @@
 # app/admin/views.py
-from sqlalchemy import func
-from flask import abort, flash, redirect, render_template, url_for
+from sqlalchemy import func, create_engine, inspect
+from flask import abort, flash, redirect, render_template, url_for, make_response
 from flask_login import current_user, login_required
 
 from . import admin
 from .. import db
-from ..models import Tag, User
+from ..models import Tag, User, Acronym
 
 from . forms import TagsForm, UsersForm, UsersAddForm
 
 import datetime
-
+import csv
 
 def check_admin():
     """
@@ -18,6 +18,61 @@ def check_admin():
     """
     if current_user.userIsAdmin != 1:
         abort(403)
+
+# Write out the CSV File based on an list of lists
+def exportCSV(fileout, recs):
+  basedir='/code/app/upload/'
+  fullpath=basedir+fileout
+  with open(fullpath, mode='w') as of:
+    writer = csv.writer(of, delimiter=',', quotechar='"', quoting=csv.QUOTE_ALL)
+    for rec in recs:
+      myline=[]
+      myline.append(rec.acronym)
+      myline.append(rec.definition)
+      writer.writerow(myline)
+  of.close()
+  return 
+
+def importCSV(filein):
+  strOut=''
+  basedir='/code/app/upload/'
+  fullpath=basedir+filein
+  with open(fullpath) as ifile:
+    csv_reader = csv.reader(ifile, delimiter=',')
+    line_count = 0
+    sepStr=""
+    for row in csv_reader:
+        strOut = strOut + sepStr + row[0] 
+        acronym = Acronym(acronym=row[0],
+                          definition=row[1],
+                          author_id=current_user.id,
+                          dateCreate=datetime.datetime.now())
+        db.session.add(acronym)
+        db.session.commit()
+        sepStr=","
+  ifile.close()
+  resp="Added Acronyms: " + strOut 
+  return (resp)
+
+@admin.route('/Export/<fileout>', methods=['GET', 'POST'])
+@login_required
+def export_data_file(fileout):
+    """
+    Export Acronym File 
+    """
+    check_admin()
+    acros = Acronym.query.all()
+    exportCSV(fileout,acros)
+    return('Wrote Acronyms to file '+fileout)
+
+@admin.route('/Import/<filein>', methods=['GET', 'POST'])
+@login_required
+def import_data_file(filein):
+    """
+    Import Acronym File 
+    """
+    check_admin()
+    return(importCSV(filein)) 
 
 
 # Tag Views

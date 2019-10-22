@@ -48,6 +48,7 @@ services:
     build: './flask/'
     volumes:
       - ./flask/code:/code
+      - ./upload:/code/app/upload
     ports:
       - "5000:80"
     networks:
