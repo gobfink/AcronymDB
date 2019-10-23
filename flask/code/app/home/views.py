@@ -3,7 +3,7 @@ import datetime
 from wtforms import BooleanField 
 from flask import abort, render_template, redirect, flash, url_for, request
 from flask_login import current_user, login_required
-from ..models import Acronym, Tag, AcroTag
+from ..models import Acronym, Tag, AcroTag, User
 from .. import db
 
 from . forms import AcronymsForm, AcronymSearchForm, AddTagForm
@@ -63,6 +63,10 @@ def acronyms():
            acronyms = Acronym.query.order_by(Acronym.definition).all()
        elif (sorter == 'acronym'):
            acronyms = Acronym.query.order_by(Acronym.acronym).all()
+       elif (sorter == 'author'):
+           acronyms = Acronym.query.join(User, Acronym.author).order_by(User.userLN).all()
+       elif (sorter == 'date'):
+           acronyms = Acronym.query.order_by(Acronym.dateCreate).all()
        else:
            acronyms = Acronym.query.order_by(Acronym.acronym).all()
        subcount = len(acronyms) 

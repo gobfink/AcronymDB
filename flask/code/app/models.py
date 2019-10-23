@@ -84,6 +84,8 @@ class Acronym(db.Model):
     dateCreate = db.Column(db.DateTime, default=False)
     acrotags = db.relationship('AcroTag', cascade='all,delete', backref='acronym', lazy='dynamic')
 
+    column_sortable_list = ('acronym', 'definition', 'author.userLN')
+
     def __repr__(self):
        return '<Acronym: %s, Def: %s>'%(format(self.acronym),format(self.definition))
 

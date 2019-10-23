@@ -43,8 +43,8 @@
                 <tr>
                   <th width="15%"> Acronym <a href="{{ url_for('home.acronyms',sort='acronym') }}">^</a></th>
 		  <th width="55%"> Definition <a href="{{ url_for('home.acronyms',sort='definition') }}">^</a></th>
-                  <th width="55%"> Author </th>
-                  <th width="10%"> Date Created </th>
+		  <th width="10%"> Author<a href="{{ url_for('home.acronyms',sort='author') }}">^</a></th>
+		  <th width="10%"> Date Created<a href="{{ url_for('home.acronyms',sort='date') }}">^</a></th>
                   <th width="10%"> Tag </th>
                   <th width="10%"> Edit </th>
                   {% if current_user.userIsAdmin == 1 %}
