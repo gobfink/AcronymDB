@@ -37,10 +37,8 @@
                 <td>Tags</td>
                 <td> 
                   <table class="table table-striped table-bordered">
-                    {% for field in form %}
-                    {% if field.type == "BooleanField" %}
-                    <tr><td>{{ field }} {{ field.label }}</td></tr>
-                    {% endif %}
+                    {% for tag in acronyms_tags.keys() %}
+                    <tr><td><label><input type="checkbox" name="tag" value="{{ tag }}" {% if acronyms_tags[tag] %} checked {% endif %}> &nbsp; {{ tag }}</label></td></tr>
                     {% endfor %}
                   </table>
                 </td>

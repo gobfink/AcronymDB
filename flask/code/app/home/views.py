@@ -188,21 +188,20 @@ def edit_acronym(id):
     Edit a acronym
     """
     add_acronym = False
-   
-    tags={}
-    tag_query=Tag.query.all();
-    acrotag_query=AcroTag.query.filter_by(acroID=id).all()
-    associds=[atag.tagID for atag in acrotag_query]
-    for tag in tag_query:
-      #check it if its associated, else don't
-      tags[tag.id]=tag.tag
-      if tag.id in associds:
-        setattr(AcronymsForm, tag.tag, BooleanField(tag.tag,default="checked"))
-      else:
-        setattr(AcronymsForm, tag.tag, BooleanField(tag.tag))
-
+    
     acronym = Acronym.query.get_or_404(id)
     form = AcronymsForm(obj=acronym)
+   
+    tag_query=Tag.query.all();
+    tags={}
+    acrotag_query=AcroTag.query.filter_by(acroID=id).all()
+    associds=[atag.tagID for atag in acrotag_query]
+
+    for tag in tag_query:
+      #check it if its associated, else don't
+      tags[tag.tag] = ( tag.id in associds ) 
+
+
     if request.method == 'GET':
         cmd = request.args.get('cmd')
         acrotagid = request.args.get('acrotagid')
@@ -217,16 +216,19 @@ def edit_acronym(id):
     if form.validate_on_submit():
         if form.submit.data:
           selected_tags={}
+          for t in request.form.getlist('tag'):
+            flash("t:" + t) 
           #delete all acrotags associate with the acronym
           #go through each tag
           #add the ones that have been selected
+          """
           for acrotag in acrotag_query:
             db.session.delete(acrotag)
-          for tagid, tagstr in tags.items():
+          for tagstr, checked in tags.items():
             if form.data[tagstr]:
               selected_tags[tagid]=tagstr
               db.session.add(AcroTag(acroID=id,tagID=tagid))
-
+"""
           #flash(str(selected_tags))
           acronym.acronym = form.acronym.data
           acronym.definition = form.definition.data
@@ -235,13 +237,16 @@ def edit_acronym(id):
         else:
            flash('You have Cancelled the edit of acronym \'' + acronym.acronym + '\'')
 
+           # delete any acrotag not in form
+           # add any form not in tag
+
         # redirect to the acronym page
         return redirect(url_for('home.acronyms'))
 
     form.acronym.data = acronym.acronym
     return render_template('home/acronyms/acronym.html', action="Edit",
                            add_acronym=add_acronym, form=form,
-                           acronym=acronym, title="Edit Tag")
+                           acronym=acronym, title="Edit Tag", acronyms_tags=tags)
 
 
 @home.route('/acronyms/delete/<int:id>', methods=['GET', 'POST'])

@@ -1,7 +1,7 @@
 # app/home/forms.py
 
 from flask_wtf import FlaskForm
-from wtforms import StringField, SubmitField, Form, SelectField, BooleanField
+from wtforms import StringField, SubmitField, Form, SelectField, BooleanField, FieldList
 from wtforms.validators import DataRequired, InputRequired, Length, ValidationError
 from wtforms.ext.sqlalchemy.fields import QuerySelectField
 
@@ -16,10 +16,11 @@ class AcronymsForm(FlaskForm):
     """
     Form for  adding or editing acronym
     """
-    acronym = StringField('Acronym', validators=[_required, Length(1, 80)])
+    acronym    = StringField('Acronym', validators=[_required, Length(1, 80)])
     definition = StringField('Definition', validators=[_required, Length(1, 80)])
-    submit = SubmitField('Submit')
-    cancel = SubmitField('Cancel')
+    submit     = SubmitField('Submit')
+    cancel     = SubmitField('Cancel')
+    tags       = FieldList(BooleanField(),'Tags')
 
 
 class AcronymSearchForm(Form):
