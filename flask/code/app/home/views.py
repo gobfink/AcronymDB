@@ -138,47 +138,6 @@ def add_acronym():
                            acronyms_tags=tags,
                            acronyms_tagids=tagids)
 
-@home.route('/acronyms/addtag/<int:acroid>', methods=['GET', 'POST'])
-@login_required
-def add_tag(acroid):
-    """
-    Add a tag to an acronym
-    """
-    acronym = Acronym.query.get_or_404(acroid)
-    form = AddTagForm(obj=acronym)
-    if request.method=='POST':
-        if form.submit.data:
-           # add code to add to acrotag table
-           acrotag = AcroTag(acroID=acroid, 
-                          tagID=form.select.data)
-           db.session.add(acrotag)
-           db.session.commit()
-           tag = Tag.query.get_or_404(form.select.data)
-           tagname = tag.tag
-           flash('You have successfully associated Tag \'' + tagname + '\' to acronym \'' + acronym.acronym + '\'')
-        else:
-           flash('You have cancelled the association a Tag')
-
-        return redirect(url_for('home.edit_acronym',id=acroid))
-
-    # get the tags that I don't already have for this acronym
-    #mychoices = [(1,'Test 1'),(4, 'Test 4')] 
-    mychoices = Tag.query.all()
-    assoc=[]
-    myselect = []
-    
-    for acrotag in acronym.acrotags:
-      assoc.append(int(acrotag.tagID))
-    #flash('assoc:'+str(assoc))
-    for choice in mychoices:
-        if int(choice.id) not in (assoc):
-          myselect.append((choice.id, choice.tag))
-    form.select.choices=myselect
-    # load acronym template
-    return render_template('home/acronyms/addtag.html', 
-                           form=form,
-                           title="Add Tag")
-
 @home.route('/acronyms/edit/<int:id>', methods=['GET', 'POST'])
 @login_required
 def edit_acronym(id):
@@ -201,17 +160,6 @@ def edit_acronym(id):
       tags[tag.tag] = ( tag.id in associds ) 
       tagids[tag.tag] = tag.id
 
-    if request.method == 'GET':
-        cmd = request.args.get('cmd')
-        acrotagid = request.args.get('acrotagid')
-        if (cmd == 'deltag'):
-           acrotag = AcroTag.query.get_or_404(acrotagid)
-           tagName = Tag.query.get_or_404(acrotag.tagID).tag
-           db.session.delete(acrotag)
-           db.session.commit()
-           flash('Removing Tag \''+tagName+'\' from acronym \'' + acrotag.acronym.acronym + '\'')
-        if (cmd == 'addtag'):
-           return redirect(url_for('home.add_tag',acroid=id))
     if form.validate_on_submit():
         if form.submit.data:
           selected_tags={}
