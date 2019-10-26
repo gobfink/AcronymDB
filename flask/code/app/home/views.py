@@ -121,7 +121,7 @@ def add_acronym():
               db.session.add(new_acrotag)
 
             db.session.commit()
-            flash('You have successfully added a new Acronym \'' + form.acronym.data + '\'')
+            flash('You have successfully added a new acronym - \'' + form.acronym.data + '\'')
             return redirect(url_for('home.acronyms'))
        else:
             flash('Fill in required fields!')
