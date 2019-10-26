@@ -1,8 +1,0 @@
-Flask
-Redis
-flask-sqlalchemy
-flask-login
-flask-migrate
-flask-bootstrap
-Flask-WTF
-mysqlclient
