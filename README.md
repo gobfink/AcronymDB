@@ -25,9 +25,9 @@ The database has a persisted volume called **mysql-data** that holds the persist
 To start everything you can issue the following docker compose command:
    * 'docker-compose up --build'
    * setup the database 
-   ** to set up the database 
-   *** make sure system is running using docker-compose up command
-   *** run recoverDatabase command by running ./scripts/recoverDatabase.sh as root
+     * to set up the database 
+       * make sure system is running using docker-compose up command
+       * run recoverDatabase command by running ./scripts/recoverDatabase.sh as root
 
 ## FOR THE FUTURE
    should have: 
