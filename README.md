@@ -24,10 +24,12 @@ The database has a persisted volume called **mysql-data** that holds the persist
 ## Command to start the containers
 To start everything you can issue the following docker compose command:
    * 'docker-compose up --build'
-   * setup the database (you may have to run the SQL file in /docker-compose/schema)
+   * setup the database 
+   ** to set up the database 
+   *** make sure system is running using docker-compose up command
+   *** run recoverDatabase command by running ./scripts/recoverDatabase.sh as root
 
 ## FOR THE FUTURE
    should have: 
    * a persisted volume for the public_html for the web server 
-   * a persisted volume for the flask web services (everything under /code directory in the /flask sub directory)
    * perhaps move all of this code under /docker-compose up to the main level
