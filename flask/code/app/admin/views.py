@@ -61,26 +61,29 @@ def setTags(row, acroid):
             db.session.commit()
   return
 
-def importCSV(filein):
+def importCSV(filein, skipfirst):
   strOut=''
   basedir='/code/app/upload/'
   fullpath=basedir+filein
+  skipit = int(skipfirst)
   with open(fullpath) as ifile:
     csv_reader = csv.reader(ifile, delimiter=',')
     line_count = 0
     sepStr=""
     for row in csv_reader:
-        strOut = strOut + sepStr + row[0] 
-        acronym = Acronym(acronym=row[0],
+        if skipit != 1 or line_count > 0: 
+           strOut = strOut + sepStr + row[0] 
+           acronym = Acronym(acronym=row[0],
                           name=row[1],
                           definition=row[2],
                           author_id=current_user.id,
                           dateCreate=datetime.datetime.now())
-        db.session.add(acronym)
-        db.session.commit()
-        acroid = acronym.id
-        setTags(row, acroid)
-        sepStr=","
+           db.session.add(acronym)
+           db.session.commit()
+           acroid = acronym.id
+           setTags(row, acroid)
+           sepStr=","
+        line_count+=1
   ifile.close()
   resp="Added Acronyms: " + strOut 
   return (resp)
@@ -134,16 +137,19 @@ def import_form():
 
     if form.validate_on_submit():
        filename = secure_filename(form.file.data.filename)
+       skipFirst = form.skipFirstRow.data
        basedir='/code/app/upload/'
        form.file.data.save(basedir + filename)
-       return redirect(url_for('admin.import_data_file', filein=filename))
+       return redirect(url_for('admin.import_data_file',  
+                                filein=filename,
+                                skipfirst=skipFirst))
 
     return render_template('admin/upload.html', action="Edit",
                            form=form,title="Upload File", uploading=uploading)
 
-@admin.route('/Import/<filein>', methods=['GET', 'POST'])
+@admin.route('/Import/<filein>/<skipfirst>', methods=['GET', 'POST'])
 @login_required
-def import_data_file(filein):
+def import_data_file(filein, skipfirst):
     """
     Import Acronym File 
        Expects a name for the file to read in
@@ -154,7 +160,7 @@ def import_data_file(filein):
        Will set the creation date to today's date
     """
     check_admin()
-    flash(importCSV(filein)) 
+    flash(importCSV(filein, skipfirst)) 
     return redirect(url_for('home.acronyms'))
 
 

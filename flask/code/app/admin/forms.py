@@ -9,6 +9,7 @@ from ..models import Tag, User
 
 class UploadForm(FlaskForm):
     file = FileField()
+    skipFirstRow = SelectField('First Row Has Headers?', coerce=int, choices=[(1,'Yes'),(0,'No')],validators=[])
     submit = SubmitField('Submit')
 
 class DownloadForm(FlaskForm):
