@@ -1,4 +1,5 @@
 /* app/static/css/style.css */
+
 body, html {
     width: 100%;
     height: 100%;
@@ -187,3 +188,23 @@ p.copyright {
    border-top-color: #1b435e;
    background: #1b435e;
    }
+
+.headerSortDown:after,
+.headerSortUp:after{
+    content: ' ';
+    position: relative;
+    left: 10px;
+    border: 7px solid transparent;
+}
+.headerSortDown:after{
+    top: 10px;
+    border-top-color: silver;
+}
+.headerSortUp:after{
+    bottom: 15px;
+    border-bottom-color: silver;
+}
+.headerSortDown,
+.headerSortUp{
+    padding-left: 20px;
+}

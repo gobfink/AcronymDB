@@ -33,6 +33,10 @@ def acronyms():
     """
     totalcount = Acronym.query.count()
 
+    up='headerSortUp'
+    down='headerSortDown'
+    blank=''
+    sortem = [blank, blank, blank, blank, blank]
     search = AcronymSearchForm(request.form)
     if request.method == 'POST':
        searchVal = request.form["search"]
@@ -62,14 +66,19 @@ def acronyms():
     else:
        sorter = request.args.get('sort')
        if (sorter == 'definition'):
+           sortem = [blank, blank, up, blank, blank]
            acronyms = Acronym.query.order_by(Acronym.definition).all()
-       elif (sorter == 'acronym'):
-           acronyms = Acronym.query.order_by(Acronym.acronym).all()
        elif (sorter == 'name'):
+           sortem = [blank, up, blank, blank, blank]
            acronyms = Acronym.query.order_by(Acronym.name).all()
+       elif (sorter == 'acronym'):
+           sortem = [up, blank, blank, blank, blank]
+           acronyms = Acronym.query.order_by(Acronym.acronym).all()
        elif (sorter == 'author'):
+           sortem = [blank, blank, blank, up, blank]
            acronyms = Acronym.query.join(User, Acronym.author).order_by(User.userLN).all()
        elif (sorter == 'date'):
+           sortem = [blank, blank, blank, blank, up]
            acronyms = Acronym.query.order_by(Acronym.dateCreate).all()
        else:
            acronyms = Acronym.query.order_by(Acronym.acronym).all()
@@ -79,6 +88,7 @@ def acronyms():
                            acronyms=acronyms,
                            tags=tags,
                            totalcount=totalcount,
+                           sortem=sortem,
                            subcount=subcount,
                            title='Acronyms',
                            form=search) 

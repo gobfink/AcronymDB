@@ -41,11 +41,11 @@
             <table width="100%" class="table table-striped table-bordered">
               <thead>
                 <tr>
-                  <th width="15%"> Acronym <a href="{{ url_for('home.acronyms',sort='acronym') }}">^</a></th>
-                  <th width="15%"> Name <a href="{{ url_for('home.acronyms',sort='name') }}">^</a></th>
-		  <th width="55%"> Definition <a href="{{ url_for('home.acronyms',sort='definition') }}">^</a></th>
-		  <th width="10%"> Author<a href="{{ url_for('home.acronyms',sort='author') }}">^</a></th>
-		  <th width="10%"> Date Created<a href="{{ url_for('home.acronyms',sort='date') }}">^</a></th>
+                  <th width="15%" class="{{ sortem[0] }}"><a href="{{ url_for('home.acronyms',sort='acronym') }}">Acronym</a></th>
+                  <th width="15%" class="{{ sortem[1] }}"><a href="{{ url_for('home.acronyms',sort='name') }}">Name</a></th>
+		  <th width="55%" class="{{ sortem[2] }}"><a href="{{ url_for('home.acronyms',sort='definition') }}">Definition</a></th>
+		  <th width="10%" class="{{ sortem[3] }}"><a href="{{ url_for('home.acronyms',sort='author') }}">Author</a></th>
+		  <th width="10%" class="{{ sortem[4] }}"><a href="{{ url_for('home.acronyms',sort='date') }}">Date Created</a></th>
                   <th width="10%"> Tag </th>
                   <th width="10%"> Edit </th>
                   {% if current_user.userIsAdmin == 1 %}
