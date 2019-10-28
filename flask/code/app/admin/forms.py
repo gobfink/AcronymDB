@@ -14,6 +14,7 @@ class UploadForm(FlaskForm):
 
 class DownloadForm(FlaskForm):
     file = StringField('Save As', validators=[DataRequired()])
+    addHeader = SelectField('Add Headers ?', coerce=int, choices=[(1,'Yes'),(0,'No')],validators=[])
     submit = SubmitField('Submit')
 
 class TagsForm(FlaskForm):

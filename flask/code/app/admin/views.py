@@ -21,11 +21,15 @@ def check_admin():
         abort(403)
 
 # Write out the CSV File based on an list of lists
-def exportCSV(fileout, recs):
+
+def exportCSV(fileout, recs, addHeader):
   basedir='/code/app/upload/'
   fullpath=basedir+fileout
   with open(fullpath, mode='w') as of:
     writer = csv.writer(of, delimiter=',', quotechar='"', quoting=csv.QUOTE_ALL)
+    if int(addHeader) == 1:
+      myline=['Acronym','Name','Definition','Tags']
+      writer.writerow(myline)
     for rec in recs:
       myline=[]
       myline.append(rec.acronym)
@@ -102,14 +106,15 @@ def export_form():
   
     if form.validate_on_submit():
        filename = form.file.data
-       return redirect(url_for('admin.export_data_file', fileout=filename))
+       addHeader = form.addHeader.data
+       return redirect(url_for('admin.export_data_file', fileout=filename, addHeader=addHeader))
 
     return render_template('admin/upload.html', action="Edit",
                            form=form,title="Export File", uploading=uploading)
 
-@admin.route('/Export/<fileout>', methods=['GET', 'POST'])
+@admin.route('/Export/<fileout>/<addHeader>', methods=['GET', 'POST'])
 @login_required
-def export_data_file(fileout):
+def export_data_file(fileout,addHeader):
     """
     Export Acronym File 
        Expects a name for the fileout.
@@ -119,7 +124,7 @@ def export_data_file(fileout):
     """
     check_admin()
     acros = Acronym.query.all()
-    exportCSV(fileout,acros)
+    exportCSV(fileout,acros,addHeader)
     flash('Wrote Acronyms to file /upload/'+fileout)
     return redirect(url_for('home.acronyms'))
 
