@@ -5,7 +5,7 @@ from flask_login import current_user, login_required
 
 from . import admin
 from .. import db
-from ..models import Tag, User, Acronym
+from ..models import Tag, User, Acronym, AcroTag
 
 from . forms import TagsForm, UsersForm, UsersAddForm, UploadForm, DownloadForm
 from werkzeug import secure_filename
@@ -29,10 +29,36 @@ def exportCSV(fileout, recs):
     for rec in recs:
       myline=[]
       myline.append(rec.acronym)
+      myline.append(rec.name)
       myline.append(rec.definition)
+      for acrotag in rec.acrotags:
+         myline.append(acrotag.tagTable.tag)
       writer.writerow(myline)
   of.close()
   return 
+
+def getTagID(tagName):
+  tag_query=Tag.query.filter_by(tag=tagName).first()
+  if tag_query is None: 
+    tag=Tag(tag=tagName)
+    db.session.add(tag)
+    db.session.commit()
+    retVal = tag.id 
+  else:
+    retVal = tag_query.id
+  return(retVal)
+
+def setTags(row, acroid):
+  if len(row) > 3:
+     rowLen=len(row)
+     for x in range(3, rowLen):
+        tagName=row[x].replace('"', '').strip()
+        tagid=getTagID(tagName)
+        acrotag = AcroTag(acroID=acroid, 
+                          tagID=tagid)
+        db.session.add(acrotag)
+        db.session.commit()
+  return
 
 def importCSV(filein):
   strOut=''
@@ -45,11 +71,14 @@ def importCSV(filein):
     for row in csv_reader:
         strOut = strOut + sepStr + row[0] 
         acronym = Acronym(acronym=row[0],
-                          definition=row[1],
+                          name=row[1],
+                          definition=row[2],
                           author_id=current_user.id,
                           dateCreate=datetime.datetime.now())
         db.session.add(acronym)
         db.session.commit()
+        acroid = acronym.id
+        setTags(row, acroid)
         sepStr=","
   ifile.close()
   resp="Added Acronyms: " + strOut 
