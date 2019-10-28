@@ -79,8 +79,8 @@ class Acronym(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     acronym = db.Column(db.String(80), index=True, unique=True)
-    definition = db.Column(db.String(255))
-    name = db.Column(db.String(80))
+    definition = db.Column(db.Text)
+    name = db.Column(db.String(100))
     author_id = db.Column(db.Integer, db.ForeignKey('tbl_User.id'))
     dateCreate = db.Column(db.DateTime, default=False)
     acrotags = db.relationship('AcroTag', cascade='all,delete', backref='acronym', lazy='dynamic')

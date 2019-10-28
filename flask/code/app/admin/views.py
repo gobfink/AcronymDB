@@ -53,11 +53,12 @@ def setTags(row, acroid):
      rowLen=len(row)
      for x in range(3, rowLen):
         tagName=row[x].replace('"', '').strip()
-        tagid=getTagID(tagName)
-        acrotag = AcroTag(acroID=acroid, 
+        if len(tagName) > 0:
+            tagid=getTagID(tagName)
+            acrotag = AcroTag(acroID=acroid, 
                           tagID=tagid)
-        db.session.add(acrotag)
-        db.session.commit()
+            db.session.add(acrotag)
+            db.session.commit()
   return
 
 def importCSV(filein):
