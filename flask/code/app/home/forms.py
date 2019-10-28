@@ -26,6 +26,7 @@ class AcronymsForm(FlaskForm):
 
 class AcronymSearchForm(Form):
     choices = [('acronym', 'Acronym'),
+               ('name','Name'),
                ('definition','Definition'),
                ('tag','Tags')]
     select = SelectField('',choices=choices)

@@ -40,6 +40,8 @@ def acronyms():
        searchStr = "%{}%".format(searchVal)
        if choice == 'acronym':
           acronyms = Acronym.query.filter(Acronym.acronym.like(searchStr))
+       elif choice == 'name':
+          acronyms = Acronym.query.filter(Acronym.name.like(searchStr))
        elif choice == 'definition':
           acronyms = Acronym.query.filter(Acronym.definition.like(searchStr))
        else:
