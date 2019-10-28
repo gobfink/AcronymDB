@@ -63,6 +63,8 @@ def acronyms():
            acronyms = Acronym.query.order_by(Acronym.definition).all()
        elif (sorter == 'acronym'):
            acronyms = Acronym.query.order_by(Acronym.acronym).all()
+       elif (sorter == 'name'):
+           acronyms = Acronym.query.order_by(Acronym.name).all()
        elif (sorter == 'author'):
            acronyms = Acronym.query.join(User, Acronym.author).order_by(User.userLN).all()
        elif (sorter == 'date'):
@@ -106,6 +108,7 @@ def add_acronym():
        if form.validate_on_submit():
 
             acronym = Acronym(acronym=form.acronym.data, 
+                          name=form.name.data,
                           definition=form.definition.data,
                           author_id=current_user.id,
                           dateCreate=datetime.datetime.now())
@@ -177,6 +180,7 @@ def edit_acronym(id):
                  a = AcroTag(acroID=id, tagID=int(t))
                  db.session.add(a)
           acronym.acronym = form.acronym.data
+          acronym.name = form.name.data
           acronym.definition = form.definition.data
           db.session.commit()
           flash('You have successfully edited the acronym \'' + acronym.acronym + '\'')

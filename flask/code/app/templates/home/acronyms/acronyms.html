@@ -42,6 +42,7 @@
               <thead>
                 <tr>
                   <th width="15%"> Acronym <a href="{{ url_for('home.acronyms',sort='acronym') }}">^</a></th>
+                  <th width="15%"> Name <a href="{{ url_for('home.acronyms',sort='name') }}">^</a></th>
 		  <th width="55%"> Definition <a href="{{ url_for('home.acronyms',sort='definition') }}">^</a></th>
 		  <th width="10%"> Author<a href="{{ url_for('home.acronyms',sort='author') }}">^</a></th>
 		  <th width="10%"> Date Created<a href="{{ url_for('home.acronyms',sort='date') }}">^</a></th>
@@ -56,6 +57,7 @@
               {% for acronym in acronyms %}
                 <tr>
                   <td> {{ acronym.acronym }} </td>
+                  <td> {{ acronym.name }} </td>
                   <td> {{ acronym.definition }} </td>
                   <td> {{ acronym.author.userFN }} {{ acronym.author.userLN }} </td>
                   <td>{{ acronym.dateCreate }}</td>
