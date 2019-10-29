@@ -18,7 +18,7 @@ class AcronymsForm(FlaskForm):
     """
     acronym    = StringField('Acronym', validators=[_required, Length(1, 80)])
     name       = StringField('Name', validators=[_required, Length(1, 80)])
-    definition = TextAreaField('Definition', validators=[_required, Length(1, 255)])
+    definition = TextAreaField('Definition', validators=[Length(0, 255)])
     submit     = SubmitField('Submit')
     cancel     = SubmitField('Cancel')
     tags       = FieldList(BooleanField(),'Tags')
