@@ -222,7 +222,19 @@ def edit_acronym(id):
 
         # redirect to the acronym page
         return redirect(url_for('home.acronyms'))
-
+    # Handle submits and cancels when form has missing fields
+    if form.submit.data:
+        blankFields = ''
+        sepStr = ''
+        if form.acronym.data == '':
+            blankFields = 'Acronym' 
+            sepStr = ','
+        if form.definition.data == '':
+            blankFields += sepStr + 'Definition'
+        flash('You are missing data in fields :' + blankFields)
+    elif form.cancel.data:
+        flash('You have Cancelled the edit of acronym \'' + acronym.acronym + '\'')
+        return redirect(url_for('home.acronyms'))
     form.acronym.data = acronym.acronym
     return render_template('home/acronyms/acronym.html', 
                            action="Edit",
