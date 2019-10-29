@@ -41,11 +41,31 @@
             <table width="100%" class="table table-striped table-bordered">
               <thead>
                 <tr>
-                  <th width="15%" class="{{ sortem[0] }}"><a href="{{ url_for('home.acronyms',sort='acronym') }}">Acronym</a></th>
-                  <th width="15%" class="{{ sortem[1] }}"><a href="{{ url_for('home.acronyms',sort='name') }}">Name</a></th>
-		  <th width="55%" class="{{ sortem[2] }}"><a href="{{ url_for('home.acronyms',sort='definition') }}">Definition</a></th>
-		  <th width="10%" class="{{ sortem[3] }}"><a href="{{ url_for('home.acronyms',sort='author') }}">Author</a></th>
-		  <th width="10%" class="{{ sortem[4] }}"><a href="{{ url_for('home.acronyms',sort='date') }}">Date Created</a></th>
+                  {% if sortem[0] == 'headerSortUp' %}
+                  <th width="15%" class="{{ sortem[0] }}"><a href="{{ url_for('home.acronyms',sort='acronym', dir='desc') }}">Acronym</a></th>
+                  {% else %}
+                  <th width="15%" class="{{ sortem[0] }}"><a href="{{ url_for('home.acronyms',sort='acronym', dir='asc') }}">Acronym</a></th>
+                  {% endif %}
+                  {% if sortem[1] == 'headerSortUp' %}
+                  <th width="15%" class="{{ sortem[1] }}"><a href="{{ url_for('home.acronyms',sort='name', dir='desc') }}">Name</a></th>
+                  {% else %}
+                  <th width="15%" class="{{ sortem[1] }}"><a href="{{ url_for('home.acronyms',sort='name', dir='asc') }}">Name</a></th>
+                  {% endif %}
+                  {% if sortem[2] == 'headerSortUp' %}
+		  <th width="55%" class="{{ sortem[2] }}"><a href="{{ url_for('home.acronyms',sort='definition', dir='desc') }}">Definition</a></th>
+                  {% else %}
+		  <th width="55%" class="{{ sortem[2] }}"><a href="{{ url_for('home.acronyms',sort='definition', dir='asc') }}">Definition</a></th>
+                  {% endif %}
+                  {% if sortem[3] == 'headerSortUp' %}
+		  <th width="10%" class="{{ sortem[3] }}"><a href="{{ url_for('home.acronyms',sort='author', dir='desc') }}">Author</a></th>
+                  {% else %}
+		  <th width="10%" class="{{ sortem[3] }}"><a href="{{ url_for('home.acronyms',sort='author', dir='asc') }}">Author</a></th>
+                  {% endif %}
+                  {% if sortem[4] == 'headerSortUp' %}
+		  <th width="10%" class="{{ sortem[4] }}"><a href="{{ url_for('home.acronyms',sort='date', dir='desc') }}">Date Created</a></th>
+                  {% else %}
+		  <th width="10%" class="{{ sortem[4] }}"><a href="{{ url_for('home.acronyms',sort='date', dir='asc') }}">Date Created</a></th>
+                  {% endif %}
                   <th width="10%"> Tag </th>
                   <th width="10%"> Edit </th>
                   {% if current_user.userIsAdmin == 1 %}

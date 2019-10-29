@@ -65,21 +65,42 @@ def acronyms():
        acronyms = acronyms.order_by(Acronym.acronym)
     else:
        sorter = request.args.get('sort')
-       if (sorter == 'definition'):
-           sortem = [blank, blank, up, blank, blank]
-           acronyms = Acronym.query.order_by(Acronym.definition).all()
+       dir = request.args.get('dir')
+       if (sorter == 'acronym'):
+           if dir == 'desc':
+              sortem = [down, blank, blank, blank, blank]
+              acronyms = Acronym.query.order_by(Acronym.acronym.desc()).all()
+           else:
+              sortem = [up, blank, blank, blank, blank]
+              acronyms = Acronym.query.order_by(Acronym.acronym).all()
        elif (sorter == 'name'):
-           sortem = [blank, up, blank, blank, blank]
-           acronyms = Acronym.query.order_by(Acronym.name).all()
-       elif (sorter == 'acronym'):
-           sortem = [up, blank, blank, blank, blank]
-           acronyms = Acronym.query.order_by(Acronym.acronym).all()
+           if dir == 'desc':
+              sortem = [blank, down, blank, blank, blank]
+              acronyms = Acronym.query.order_by(Acronym.name.desc()).all()
+           else:
+              sortem = [blank, up, blank, blank, blank]
+              acronyms = Acronym.query.order_by(Acronym.name).all()
+       elif (sorter == 'definition'):
+           if dir == 'desc':
+              sortem = [blank, blank, down, blank, blank]
+              acronyms = Acronym.query.order_by(Acronym.definition.desc()).all()
+           else:
+              sortem = [blank, blank, up, blank, blank]
+              acronyms = Acronym.query.order_by(Acronym.definition).all()
        elif (sorter == 'author'):
-           sortem = [blank, blank, blank, up, blank]
-           acronyms = Acronym.query.join(User, Acronym.author).order_by(User.userLN).all()
+           if dir == 'desc':
+              sortem = [blank, blank, blank, down, blank]
+              acronyms = Acronym.query.join(User, Acronym.author).order_by(User.userLN.desc()).all()
+           else:
+              sortem = [blank, blank, blank, up, blank]
+              acronyms = Acronym.query.join(User, Acronym.author).order_by(User.userLN).all()
        elif (sorter == 'date'):
-           sortem = [blank, blank, blank, blank, up]
-           acronyms = Acronym.query.order_by(Acronym.dateCreate).all()
+           if dir == 'desc':
+              sortem = [blank, blank, blank, blank, down]
+              acronyms = Acronym.query.order_by(Acronym.dateCreate.desc()).all()
+           else:
+              sortem = [blank, blank, blank, blank, up]
+              acronyms = Acronym.query.order_by(Acronym.dateCreate).all()
        else:
            acronyms = Acronym.query.order_by(Acronym.acronym).all()
        subcount = len(acronyms) 
