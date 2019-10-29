@@ -3,6 +3,8 @@
 from flask import flash, redirect, render_template, url_for
 from flask_login import login_required, login_user, logout_user
 
+import sqlalchemy
+
 from . import auth
 from . forms import LoginForm, RegistrationForm
 from .. import db
@@ -23,6 +25,7 @@ def register():
                             userLN=form.userLN.data,
                             password=form.password.data,
                             userLastLoginDT=datetime.datetime.now(),
+                            userLoginDT=sqlalchemy.sql.null(),
                             userIsAdmin=0)
 
         # add employee to the database
