@@ -1,5 +1,5 @@
 # app/admin/views.py
-from sqlalchemy import func, create_engine, inspect
+from sqlalchemy import func, create_engine, inspect, null
 from flask import abort, flash, redirect, render_template, url_for, make_response
 from flask_login import current_user, login_required
 
@@ -290,6 +290,7 @@ def add_user():
                             userLN=form.userLN.data,
                             password=form.password.data,
                             userLastLoginDT=datetime.datetime.now(),
+                            userLoginDT=null(),
                             userIsAdmin=form.userIsAdmin.data)
        # add user to the database
        db.session.add(user)

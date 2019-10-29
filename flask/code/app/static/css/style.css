@@ -3,6 +3,7 @@
 body, html {
     width: 100%;
     height: 100%;
+    background-color: #eeeeee;
 }
 
 body, h1, h2, h3 {
@@ -11,11 +12,13 @@ body, h1, h2, h3 {
 }
 
 a, .navbar-default .navbar-brand, .navbar-default .navbar-nav>li>a {
-  color: #aec251;
+  #color: #aec251;
+  color: #944213;
 }
 
 a:hover, .navbar-default .navbar-brand:hover, .navbar-default .navbar-nav>li>a:hover {
-  color: #687430;
+  #color: #687430;
+  color: #381501;
 }
 
 .authlist {
@@ -24,7 +27,7 @@ a:hover, .navbar-default .navbar-brand:hover, .navbar-default .navbar-nav>li>a:h
 
 footer {
     padding: 50px 0;
-    background-color: #f8f8f8;
+    background-color: #000000;
 }
 
 p.copyright {
@@ -34,18 +37,24 @@ p.copyright {
 .alert-info {
     width: 50%;
     margin: auto;
-    color: #687430;
-    background-color: #e6ecca;
-    border-color: #aec251;
+    #color: #ff0000;
+    #color: #960e19;
+    color: #ffffff;
+    #background-color: #cccccc;
+    background-color: #960e19;
+    border-color: #cccccc;
 }
 
 .btn-default {
-    border-color: #aec251;
-    color: #aec251;
+    border-color: #944213;
+    color: #944213;
+    #border-color: #aec251;
+    #color: #aec251;
 }
 
 .btn-default:hover {
-    background-color: #aec251;
+    #background-color: #aec251;
+    background-color: #dddddd;
 }
 
 .center {
