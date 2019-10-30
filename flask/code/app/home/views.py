@@ -37,7 +37,13 @@ def acronyms():
     blank=''
     sortem = [blank, blank, blank, blank, blank]
     search = AcronymSearchForm(request.form)
+    searchVal=request.args.get('searchVal')
+    choice = request.args.get('choice')
+    sorter = ''
+    dir = ''
     if request.method == 'POST':
+       sorter = request.args.get('sort')
+       dir = request.args.get('dir')
        searchVal = request.form["search"]
        choice = request.form["select"]
        searchStr = "%{}%".format(searchVal)
@@ -61,7 +67,42 @@ def acronyms():
           # then find all acronyms that have acroid in the acroID list
           acronyms = Acronym.query.filter(Acronym.id.in_(acrolist))
        subcount = acronyms.count()
-       acronyms = acronyms.order_by(Acronym.acronym)
+       if (sorter == 'acronym'):
+          if dir == 'desc':
+              sortem = [down, blank, blank, blank, blank]
+              acronyms = acronyms.order_by(Acronym.acronym.desc())
+          else:
+              sortem = [up, blank, blank, blank, blank]
+              acronyms = acronyms.order_by(Acronym.acronym)
+       elif (sorter == 'name'):
+          if dir == 'desc':
+              sortem = [blank, down, blank, blank, blank]
+              acronyms = acronyms.order_by(Acronym.name.desc())
+          else:
+              sortem = [blank, up, blank, blank, blank]
+              acronyms = acronyms.order_by(Acronym.name)
+       elif (sorter == 'definition'):
+          if dir == 'desc':
+              sortem = [blank, blank, down, blank, blank]
+              acronyms = acronyms.order_by(Acronym.definition.desc())
+          else:
+              sortem = [blank, blank, up, blank, blank]
+              acronyms = acronyms.order_by(Acronym.definition)
+       elif (sorter == 'author'):
+          if dir == 'desc':
+              sortem = [blank, blank, blank, down, blank]
+              acronyms = acronyms.join(User, Acronym.author).order_by(User.userLN.desc())
+          else:
+              sortem = [blank, blank, blank, up, blank]
+              acronyms = acronyms.join(User, Acronym.author).order_by(User.userLN)
+       elif (sorter == 'date'):
+          if dir == 'desc':
+              sortem = [blank, blank, blank, blank, down]
+              acronyms = acronyms.order_by(Acronym.dateCreate.desc())
+          else:
+              sortem = [blank, blank, blank, blank, up]
+              acronyms = acronyms.order_by(Acronym.dateCreate)
+       #acronyms = acronyms.order_by(Acronym.acronym)
     else:
        sorter = request.args.get('sort')
        dir = request.args.get('dir')
@@ -106,9 +147,13 @@ def acronyms():
     tags = Tag.query.all() 
     return render_template('home/acronyms/acronyms.html',
                            acronyms=acronyms,
+                           searchVal=searchVal,
+                           choice=choice,
                            tags=tags,
                            totalcount=totalcount,
                            sortem=sortem,
+                           sorter=sorter,
+                           dir=dir,
                            subcount=subcount,
                            title='Acronyms',
                            form=search) 

@@ -42,29 +42,29 @@
               <thead>
                 <tr>
                   {% if sortem[0] == 'headerSortUp' %}
-                  <th width="15%" class="{{ sortem[0] }}"><a href="{{ url_for('home.acronyms',sort='acronym', dir='desc') }}">Acronym</a></th>
+                  <th width="15%" class="{{ sortem[0] }}"><a href="{{ url_for('home.acronyms',sort='acronym', dir='desc',searchVal=searchVal, choice=choice) }}">Acronym</a></th>
                   {% else %}
-                  <th width="15%" class="{{ sortem[0] }}"><a href="{{ url_for('home.acronyms',sort='acronym', dir='asc') }}">Acronym</a></th>
+                  <th width="15%" class="{{ sortem[0] }}"><a href="{{ url_for('home.acronyms',sort='acronym', dir='asc',searchVal=searchVal, choice=choice) }}">Acronym</a></th>
                   {% endif %}
                   {% if sortem[1] == 'headerSortUp' %}
-                  <th width="15%" class="{{ sortem[1] }}"><a href="{{ url_for('home.acronyms',sort='name', dir='desc') }}">Name</a></th>
+                  <th width="15%" class="{{ sortem[1] }}"><a href="{{ url_for('home.acronyms',sort='name', dir='desc',searchVal=searchVal, choice=choice) }}">Name</a></th>
                   {% else %}
-                  <th width="15%" class="{{ sortem[1] }}"><a href="{{ url_for('home.acronyms',sort='name', dir='asc') }}">Name</a></th>
+                  <th width="15%" class="{{ sortem[1] }}"><a href="{{ url_for('home.acronyms',sort='name', dir='asc',searchVal=searchVal, choice=choice) }}">Name</a></th>
                   {% endif %}
                   {% if sortem[2] == 'headerSortUp' %}
-		  <th width="55%" class="{{ sortem[2] }}"><a href="{{ url_for('home.acronyms',sort='definition', dir='desc') }}">Definition</a></th>
+		  <th width="55%" class="{{ sortem[2] }}"><a href="{{ url_for('home.acronyms',sort='definition', dir='desc',searchVal=searchVal, choice=choice) }}">Definition</a></th>
                   {% else %}
-		  <th width="55%" class="{{ sortem[2] }}"><a href="{{ url_for('home.acronyms',sort='definition', dir='asc') }}">Definition</a></th>
+		  <th width="55%" class="{{ sortem[2] }}"><a href="{{ url_for('home.acronyms',sort='definition', dir='asc',searchVal=searchVal, choice=choice) }}">Definition</a></th>
                   {% endif %}
                   {% if sortem[3] == 'headerSortUp' %}
-		  <th width="10%" class="{{ sortem[3] }}"><a href="{{ url_for('home.acronyms',sort='author', dir='desc') }}">Author</a></th>
+		  <th width="10%" class="{{ sortem[3] }}"><a href="{{ url_for('home.acronyms',sort='author', dir='desc',searchVal=searchVal, choice=choice) }}">Author</a></th>
                   {% else %}
-		  <th width="10%" class="{{ sortem[3] }}"><a href="{{ url_for('home.acronyms',sort='author', dir='asc') }}">Author</a></th>
+		  <th width="10%" class="{{ sortem[3] }}"><a href="{{ url_for('home.acronyms',sort='author', dir='asc',searchVal=searchVal, choice=choice) }}">Author</a></th>
                   {% endif %}
                   {% if sortem[4] == 'headerSortUp' %}
-		  <th width="10%" class="{{ sortem[4] }}"><a href="{{ url_for('home.acronyms',sort='date', dir='desc') }}">Date Created</a></th>
+		  <th width="10%" class="{{ sortem[4] }}"><a href="{{ url_for('home.acronyms',sort='date', dir='desc',searchVal=searchVal, choice=choice) }}">Date Created</a></th>
                   {% else %}
-		  <th width="10%" class="{{ sortem[4] }}"><a href="{{ url_for('home.acronyms',sort='date', dir='asc') }}">Date Created</a></th>
+		  <th width="10%" class="{{ sortem[4] }}"><a href="{{ url_for('home.acronyms',sort='date', dir='asc',searchVal=searchVal, choice=choice) }}">Date Created</a></th>
                   {% endif %}
                   <th width="10%"> Tag </th>
                   {% if current_user.is_active %}
@@ -76,6 +76,7 @@
                 </tr>
               </thead>
               <tbody>
+              <tr><td>{{ searchVal }}</td><td>{{ choice }}</td></tr>
               {% for acronym in acronyms %}
                 <tr>
                   <td> {{ acronym.acronym }} </td>
