@@ -67,7 +67,9 @@
 		  <th width="10%" class="{{ sortem[4] }}"><a href="{{ url_for('home.acronyms',sort='date', dir='asc') }}">Date Created</a></th>
                   {% endif %}
                   <th width="10%"> Tag </th>
+                  {% if current_user.is_active %}
                   <th width="10%"> Edit </th>
+                  {% endif %}
                   {% if current_user.userIsAdmin == 1 %}
                   <th width="10%"> Delete </th>
                   {% endif %}
@@ -86,11 +88,13 @@
                     <span class="tag">{{ acrotag.tagTable.tag }}</span>
                     {% endfor %}
                   </td>
+                  {% if current_user.is_active %}
                   <td>
                     <a href="{{ url_for('home.edit_acronym', id=acronym.id) }}">
                       <i class="fa fa-pencil"></i> Edit 
                     </a>
                   </td>
+                  {% endif %}
                   {% if current_user.userIsAdmin == 1 %}
                   <td>
                     <a href="{{ url_for('home.delete_acronym', id=acronym.id) }}">

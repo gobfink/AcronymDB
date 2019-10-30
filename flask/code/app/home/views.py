@@ -26,7 +26,6 @@ def homepage():
     return render_template('home/index.html', title="Welcome")
 
 @home.route('/acronyms', methods=['GET','POST'])
-@login_required
 def acronyms():
     """
     List all acronyms
