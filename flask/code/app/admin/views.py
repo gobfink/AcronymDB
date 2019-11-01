@@ -1,6 +1,6 @@
 # app/admin/views.py
 from sqlalchemy import func, create_engine, inspect, null
-from flask import abort, flash, redirect, render_template, url_for, make_response
+from flask import abort, flash, redirect, render_template, url_for, make_response, send_file
 from flask_login import current_user, login_required
 
 from . import admin
@@ -125,8 +125,15 @@ def export_data_file(fileout,addHeader):
     check_admin()
     acros = Acronym.query.all()
     exportCSV(fileout,acros,addHeader)
-    flash('Wrote Acronyms to file /upload/'+fileout)
-    return redirect(url_for('home.acronyms'))
+    #flash('Wrote Acronyms to file /upload/'+fileout)
+    #return redirect(url_for('home.acronyms'))
+    try:
+        return send_file('/code/app/upload/'+fileout, 
+                     mimetype='text/csv',
+                     attachment_filename=fileout,
+                     as_attachment=True)
+    except Exception as e:
+        return str(e)
 
 @admin.route('/Import', methods=['GET','POST'])
 @login_required
