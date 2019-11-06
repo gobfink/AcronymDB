@@ -28,14 +28,23 @@
           <hr class="intro-divider">
           <div class="center">
              <form method=post>
-               <table border=0>
-                 <tr valign="bottom">
+               <table border=0 align="center">
+                 <tr valign="bottom" align="center">
                      <td>{{ render_field(form.search) }}</td>
                      <td>{{ render_field(form.select) }}</td>
-                     <td valign="bottom"><input type=submit value=Search></td>
+                 </tr>
+                 <tr>
+                     <td colspan="2" valign="bottom" align="center"><input type=submit value=Search class="btn btn-default btn-lg"></td>
                  </tr>
                </table>
              </form>
+             <hr class="intro-divider">
+          </div>
+          <div style="text-align: center">
+          <a href="{{ url_for('home.add_acronym') }}" class="btn btn-default btn-lg">
+            <i class="fa fa-plus"></i>
+            Add Acronym
+          </a>
           </div>
           <div class="center">
             <table width="100%" class="table table-striped table-bordered">

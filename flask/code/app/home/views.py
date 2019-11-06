@@ -159,7 +159,7 @@ def acronyms():
                            form=search) 
 
 @home.route('/acronyms/add', methods=['GET', 'POST'])
-@login_required
+#@login_required
 def add_acronym():
     """
     Add a acronym to the database
@@ -183,11 +183,14 @@ def add_acronym():
 
     if form.submit.data:
        if form.validate_on_submit():
-
+            if current_user.is_anonymous:
+               authid = 0
+            else:
+               authid = current_user.id
             acronym = Acronym(acronym=form.acronym.data, 
                           name=form.name.data,
                           definition=form.definition.data,
-                          author_id=current_user.id,
+                          author_id=authid,
                           dateCreate=datetime.datetime.now())
 
             db.session.add(acronym)
