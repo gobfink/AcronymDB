@@ -23,6 +23,7 @@ a:hover, .navbar-default .navbar-brand:hover, .navbar-default .navbar-nav>li>a:h
 
 .authlist {
   color: #000000;
+  list-style: none;
 }
 
 footer {
@@ -32,6 +33,10 @@ footer {
 
 p.copyright {
     margin: 15px 0 0;
+}
+
+#search,#select {
+    height: 25px;
 }
 
 .alert-info {
