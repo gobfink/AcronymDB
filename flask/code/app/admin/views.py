@@ -8,7 +8,7 @@ from .. import db
 from ..models import Tag, User, Acronym, AcroTag
 
 from . forms import TagsForm, UsersForm, UsersAddForm, UploadForm, DownloadForm
-from werkzeug import secure_filename
+from werkzeug.utils import secure_filename
 
 import datetime
 import csv
