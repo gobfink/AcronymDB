@@ -1,6 +1,6 @@
 # app/home/views.py
 import datetime
-from wtforms import BooleanField 
+from wtforms import BooleanField
 from flask import abort, render_template, redirect, flash, url_for, request
 from flask_login import current_user, login_required
 from ..models import Acronym, Tag, AcroTag, User
@@ -30,6 +30,10 @@ def acronyms():
     """
     List all acronyms
     """
+
+    ROWS_PER_PAGE = 25
+    page = request.args.get('page', 1, type=int)
+
     totalcount = Acronym.query.count()
 
     up='headerSortUp'
@@ -39,131 +43,116 @@ def acronyms():
     search = AcronymSearchForm(request.form)
     searchVal=request.args.get('searchVal')
     choice = request.args.get('choice')
-    sorter = ''
-    dir = ''
-    if request.method == 'POST':
-       sorter = request.args.get('sort')
-       dir = request.args.get('dir')
-       searchVal = request.form["search"]
-       choice = request.form["select"]
-       searchStr = "%{}%".format(searchVal)
-       if choice == 'acronym':
-          acronyms = Acronym.query.filter(Acronym.acronym.like(searchStr))
-       elif choice == 'name':
-          acronyms = Acronym.query.filter(Acronym.name.like(searchStr))
-       elif choice == 'definition':
-          acronyms = Acronym.query.filter(Acronym.definition.like(searchStr))
-       else:
-          #Need to find all tag ids that match the search term,
-          tags = Tag.query.filter(Tag.tag.like(searchStr))
-          taglist = []
-          for tag in tags:
-              taglist.append(tag.id) 
-          # then find all acroIDs in acrotag
-          acrotags = AcroTag.query.filter(AcroTag.tagID.in_(taglist))
-          acrolist = []
-          for acrotag in acrotags:
-              acrolist.append(acrotag.acroID)
-          # then find all acronyms that have acroid in the acroID list
-          acronyms = Acronym.query.filter(Acronym.id.in_(acrolist))
-       subcount = acronyms.count()
-       if (sorter == 'acronym'):
-          if dir == 'desc':
-              sortem = [down, blank, blank, blank, blank]
-              acronyms = acronyms.order_by(Acronym.acronym.desc())
-          else:
-              sortem = [up, blank, blank, blank, blank]
-              acronyms = acronyms.order_by(Acronym.acronym)
-       elif (sorter == 'name'):
-          if dir == 'desc':
-              sortem = [blank, down, blank, blank, blank]
-              acronyms = acronyms.order_by(Acronym.name.desc())
-          else:
-              sortem = [blank, up, blank, blank, blank]
-              acronyms = acronyms.order_by(Acronym.name)
-       elif (sorter == 'definition'):
-          if dir == 'desc':
-              sortem = [blank, blank, down, blank, blank]
-              acronyms = acronyms.order_by(Acronym.definition.desc())
-          else:
-              sortem = [blank, blank, up, blank, blank]
-              acronyms = acronyms.order_by(Acronym.definition)
-       elif (sorter == 'author'):
-          if dir == 'desc':
-              sortem = [blank, blank, blank, down, blank]
-              acronyms = acronyms.join(User, Acronym.author).order_by(User.userLN.desc())
-          else:
-              sortem = [blank, blank, blank, up, blank]
-              acronyms = acronyms.join(User, Acronym.author).order_by(User.userLN)
-       elif (sorter == 'date'):
-          if dir == 'desc':
-              sortem = [blank, blank, blank, blank, down]
-              acronyms = acronyms.order_by(Acronym.dateCreate.desc())
-          else:
-              sortem = [blank, blank, blank, blank, up]
-              acronyms = acronyms.order_by(Acronym.dateCreate)
-       #acronyms = acronyms.order_by(Acronym.acronym)
+    #sorter = ''
+    #dir = ''
+    sorter = request.args.get('sort')
+    dir = request.args.get('dir')
+    if (sorter == 'acronym'):
+        if dir == 'desc':
+           sortem = [down, blank, blank, blank, blank]
+           orderby = Acronym.acronym.desc()
+        else:
+           sortem = [up, blank, blank, blank, blank]
+           orderby = Acronym.acronym
+    elif (sorter == 'name'):
+        if dir == 'desc':
+           sortem = [blank, down, blank, blank, blank]
+           orderby = Acronym.name.desc()
+        else:
+           sortem = [blank, up, blank, blank, blank]
+           orderby = Acronym.name
+    elif (sorter == 'definition'):
+        if dir == 'desc':
+           sortem = [blank, blank, down, blank, blank]
+           orderby = Acronym.definition.desc()
+        else:
+           sortem = [blank, blank, up, blank, blank]
+           orderby = Acronym.definition
+    elif (sorter == 'author'):
+        if dir == 'desc':
+           sortem = [blank, blank, blank, down, blank]
+           orderby = User.userLN.desc()
+        else:
+           sortem = [blank, blank, blank, up, blank]
+           orderby = User.userLN
+           #acronyms = Acronym.query.join(User, Acronym.author).order_by(User.userLN).all()
+    elif (sorter == 'date'):
+        if dir == 'desc':
+           sortem = [blank, blank, blank, blank, down]
+           orderby = Acronym.dateCreate.desc()
+        else:
+           sortem = [blank, blank, blank, blank, up]
+           orderby = Acronym.dateCreate
     else:
-       sorter = request.args.get('sort')
-       dir = request.args.get('dir')
-       if (sorter == 'acronym'):
-           if dir == 'desc':
-              sortem = [down, blank, blank, blank, blank]
-              acronyms = Acronym.query.order_by(Acronym.acronym.desc()).all()
-           else:
-              sortem = [up, blank, blank, blank, blank]
-              acronyms = Acronym.query.order_by(Acronym.acronym).all()
-       elif (sorter == 'name'):
-           if dir == 'desc':
-              sortem = [blank, down, blank, blank, blank]
-              acronyms = Acronym.query.order_by(Acronym.name.desc()).all()
-           else:
-              sortem = [blank, up, blank, blank, blank]
-              acronyms = Acronym.query.order_by(Acronym.name).all()
-       elif (sorter == 'definition'):
-           if dir == 'desc':
-              sortem = [blank, blank, down, blank, blank]
-              acronyms = Acronym.query.order_by(Acronym.definition.desc()).all()
-           else:
-              sortem = [blank, blank, up, blank, blank]
-              acronyms = Acronym.query.order_by(Acronym.definition).all()
-       elif (sorter == 'author'):
-           if dir == 'desc':
-              sortem = [blank, blank, blank, down, blank]
-              acronyms = Acronym.query.join(User, Acronym.author).order_by(User.userLN.desc()).all()
-           else:
-              sortem = [blank, blank, blank, up, blank]
-              acronyms = Acronym.query.join(User, Acronym.author).order_by(User.userLN).all()
-       elif (sorter == 'date'):
-           if dir == 'desc':
-              sortem = [blank, blank, blank, blank, down]
-              acronyms = Acronym.query.order_by(Acronym.dateCreate.desc()).all()
-           else:
-              sortem = [blank, blank, blank, blank, up]
-              acronyms = Acronym.query.order_by(Acronym.dateCreate).all()
-       else:
-           acronyms = Acronym.query.order_by(Acronym.acronym).all()
-       subcount = len(acronyms) 
-    tags = Tag.query.all() 
+        orderby = Acronym.acronym
+        sorter='acronym'
+
+    # Main cursor build
+    acronyms = Acronym.query
+
+    if request.method == 'POST':
+        page=1
+        searchVal = request.form["search"]
+        choice = request.form["select"]
+    else:
+        searchVal = request.args.get('search')
+        choice = request.args.get('select')
+    #searchVal = request.form["search"]
+    #choice = request.form["select"]
+    searchStr = "%{}%".format(searchVal)
+    if choice == 'acronym':
+        acronyms = acronyms.filter(Acronym.acronym.like(searchStr))
+    elif choice == 'name':
+        acronyms = acronyms.filter(Acronymt.name.like(searchStr))
+    elif choice == 'definition':
+        acronyms = acronyms.filter(Acronym.definition.like(searchStr))
+    elif choice == 'tag':
+        #Need to find all tag ids that match the search term,
+        tags = Tag.query.filter(Tag.tag.like(searchStr))
+        taglist = []
+        for tag in tags:
+            taglist.append(tag.id)
+        # then find all acroIDs in acrotag
+        acrotags = AcroTag.query.filter(AcroTag.tagID.in_(taglist))
+        acrolist = []
+        for acrotag in acrotags:
+            acrolist.append(acrotag.acroID)
+        # then find all acronyms that have acroid in the acroID list
+        acronyms = acronyms.filter(Acronym.id.in_(acrolist))
+
+    acronyms = acronyms.join(User, Acronym.author)
+    acronyms = acronyms.order_by(orderby)
+    subcount = acronyms.count()
+#    totalcount = acronyms.count()
+    acronyms = acronyms.paginate(page,ROWS_PER_PAGE, False)
+
+
+    tags = Tag.query.all()
+    #acronyms = acronyms.paginate(page,ROWS_PER_PAGE, False)
+    next_url = url_for('home.acronyms', page=acronyms.next_num) if acronyms.has_next else None
+    prev_url = url_for('home.acronyms', page=acronyms.prev_num) if acronyms.has_prev else None
     return render_template('home/acronyms/acronyms.html',
-                           acronyms=acronyms,
+                           acronyms=acronyms.items,
+                           next_url=next_url,
+                           prev_url=prev_url,
                            searchVal=searchVal,
                            choice=choice,
                            tags=tags,
                            totalcount=totalcount,
                            sortem=sortem,
                            sorter=sorter,
+                           pagenum=page,
                            dir=dir,
                            subcount=subcount,
                            title='Acronyms',
-                           form=search) 
+                           form=search)
 
 @home.route('/acronyms/add', methods=['GET', 'POST'])
 #@login_required
 def add_acronym():
     """
     Add a acronym to the database
-    """      
+    """
     add_acronym = True
 
     """
@@ -187,7 +176,7 @@ def add_acronym():
                authid = 0
             else:
                authid = current_user.id
-            acronym = Acronym(acronym=form.acronym.data, 
+            acronym = Acronym(acronym=form.acronym.data,
                           name=form.name.data,
                           definition=form.definition.data,
                           author_id=authid,
@@ -213,7 +202,7 @@ def add_acronym():
         return redirect(url_for('home.acronyms'))
 
     # load acronym template
-    return render_template('home/acronyms/acronym.html', 
+    return render_template('home/acronyms/acronym.html',
                            action="Add",
                            add_acronym=add_acronym,
                            form=form,
@@ -228,10 +217,10 @@ def edit_acronym(id):
     Edit a acronym
     """
     add_acronym = False
-    
+
     acronym = Acronym.query.get_or_404(id)
     form = AcronymsForm(obj=acronym)
-   
+
     tag_query=Tag.query.all();
     tagids={}
     tags={}
@@ -240,7 +229,7 @@ def edit_acronym(id):
 
     for tag in tag_query:
       #check it if its associated, else don't
-      tags[tag.tag] = ( tag.id in associds ) 
+      tags[tag.tag] = ( tag.id in associds )
       tagids[tag.tag] = tag.id
 
     if form.validate_on_submit():
@@ -251,10 +240,10 @@ def edit_acronym(id):
           # Delete all acrotags not in formids
           for t in associds:
               if t not in formids:
-                 a = AcroTag.query.filter_by(acroID=id).filter_by(tagID=t)   
+                 a = AcroTag.query.filter_by(acroID=id).filter_by(tagID=t)
                  # Remember a is a query string that returns all fields so we only need the id field (field 0)
                  db.session.delete(a[0])
-          # Add all tagids in formids not in acrotags          
+          # Add all tagids in formids not in acrotags
           for t in formids:
               if t not in associds:
                  a = AcroTag(acroID=id, tagID=int(t))
@@ -274,7 +263,7 @@ def edit_acronym(id):
         blankFields = ''
         sepStr = ''
         if form.acronym.data == '':
-            blankFields = 'Acronym' 
+            blankFields = 'Acronym'
             sepStr = ','
         if form.definition.data == '':
             blankFields += sepStr + 'Definition'
@@ -283,12 +272,12 @@ def edit_acronym(id):
         flash('You have Cancelled the edit of acronym \'' + acronym.acronym + '\'')
         return redirect(url_for('home.acronyms'))
     form.acronym.data = acronym.acronym
-    return render_template('home/acronyms/acronym.html', 
+    return render_template('home/acronyms/acronym.html',
                            action="Edit",
-                           add_acronym=add_acronym, 
+                           add_acronym=add_acronym,
                            form=form,
-                           acronym=acronym, 
-                           title="Edit Tag", 
+                           acronym=acronym,
+                           title="Edit Tag",
                            acronyms_tags=tags,
                            acronyms_tagids=tagids)
 

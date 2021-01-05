@@ -2,7 +2,7 @@
 
 from flask_wtf import FlaskForm
 from wtforms import PasswordField, StringField, SubmitField, ValidationError
-from wtforms.validators import DataRequired, Email, EqualTo
+from wtforms.validators import DataRequired, EqualTo
 
 from ..models import User
 
@@ -11,7 +11,7 @@ class RegistrationForm(FlaskForm):
     """
     Form for users to create new account
     """
-    userEmail = StringField('Email', validators=[DataRequired(), Email()])
+    userEmail = StringField('Email', validators=[DataRequired()])
     username = StringField('Username', validators=[DataRequired()])
     userFN = StringField('First Name', validators=[DataRequired()])
     userLN = StringField('Last Name', validators=[DataRequired()])
