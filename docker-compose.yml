@@ -1,23 +1,5 @@
 version: "3.2"
 services:
-  php:
-    build: './php/'
-    networks:
-      - backend
-    volumes:
-      - ./public_html/:/var/www/html/
-#  apache:
-#    build: './apache/'
-#    depends_on:
-#      - php
-#      - db
-#    networks:
-#      - frontend
-#      - backend
-#    ports:
-#      - "8080:80"
-#    volumes:
-#      - ./public_html/:/var/www/html/
   db:
     image: mysql
     command: --default-authentication-plugin=mysql_native_password
