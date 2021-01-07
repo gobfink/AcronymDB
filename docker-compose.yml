@@ -25,14 +25,14 @@ services:
     depends_on:
       - db
     ports:
-      - "8081:8080"
+      - "8082:8080"
   flask:
     build: './flask/'
     volumes:
       - ./flask/code:/code
       - ./upload:/code/app/upload
     ports:
-      - "8080:80"
+      - "5000:80"
     networks:
       - backend
       - frontend

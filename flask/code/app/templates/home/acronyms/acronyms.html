@@ -23,6 +23,22 @@
 {% endif %}
 <div class="content-section">
   <div class="outer">
+      <div>
+	      <br>
+	      <br>
+	      <br>
+	      <br>
+	      <br>
+	      <br>
+	      <br>
+
+	      <h3>External Resources</h3>
+	<ul>
+		<li><a href="https://www.jcs.mil/Portals/36/Documents/Doctrine/pubs/dictionary.pdf" target="_blank">DoD Dictionary of Miliary and Associated Terms</a></li>
+		<li><a href="https:/www.ibiblio.org/hyperwar/USN/ref/OPNAV_29-P1000.html" target="_blank">Glossary of U.S. Naval Abbreviations</a></li>
+		<li><a href="{{ url_for('static', filename='css/Glossary_Navy.pdf') }}" target="_blank">Glossary of Naval Terms</a></li>
+	</ul>
+      </div> 
     <div class="middle">
       <div class="inner">
         <br/>
@@ -85,10 +101,8 @@
                   {% endif %}
                   {% endif %}
                   <th width="10%"> Tag </th>
-                  {% if current_user.is_active %}
-                  <th width="10%"> Edit </th>
-                  {% endif %}
                   {% if current_user.userIsAdmin == 1 %}
+                  <th width="10%"> Edit </th>
                   <th width="10%"> Delete </th>
                   {% endif %}
                 </tr>
@@ -108,14 +122,12 @@
                     <span class="tag">{{ acrotag.tagTable.tag }}</span>
                     {% endfor %}
                   </td>
-                  {% if current_user.is_active %}
+                  {% if current_user.userIsAdmin == 1 %}
                   <td>
                     <a href="{{ url_for('home.edit_acronym', id=acronym.id) }}">
                       <i class="fa fa-pencil"></i> Edit
                     </a>
                   </td>
-                  {% endif %}
-                  {% if current_user.userIsAdmin == 1 %}
                   <td>
                     <a href="{{ url_for('home.delete_acronym', id=acronym.id) }}">
                       <i class="fa fa-trash"></i> Delete
