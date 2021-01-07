@@ -156,9 +156,15 @@
           </div>
           <div style="text-align: center">
         {% else %}
+	  {% if totalcount == 0 %}
           <div style="text-align: center">
             <h3> No acronyms have been added. </h3>
             <hr class="intro-divider">
+	  {% else %}
+          <div style="text-align: center">
+            <h3> Search returned no entries </h3>
+            <hr class="intro-divider">
+          {% endif %}
         {% endif %}
          <p />
          {% if current_user.userIsAdmin == 1 %}

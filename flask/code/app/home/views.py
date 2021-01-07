@@ -103,7 +103,7 @@ def acronyms():
     if choice == 'acronym':
         acronyms = acronyms.filter(Acronym.acronym.like(searchStr))
     elif choice == 'name':
-        acronyms = acronyms.filter(Acronymt.name.like(searchStr))
+        acronyms = acronyms.filter(Acronym.name.like(searchStr))
     elif choice == 'definition':
         acronyms = acronyms.filter(Acronym.definition.like(searchStr))
     elif choice == 'tag':
